@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events — Sip More</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0D0D0D;
+    --deep: #1C1C1C;
+    --burgundy: #8B2635;
+    --burgundy-light: #A63040;
+    --gold: #C9A97A;
+    --gold-light: #DFC49A;
+    --cream: #F2EDE4;
+    --cream-dim: #C8C0B2;
+    --white: #FAFAF8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--cream);
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: auto;
+  }
+
+  /* Noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.35;
+  }
+
+  /* Cursor */
+  .cursor { position: fixed; width: 10px; height: 10px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); mix-blend-mode: screen; }
+  .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(201,169,122,0.5); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: width 0.3s, height 0.3s; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+    padding: 28px 60px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: linear-gradient(to bottom, rgba(13,13,13,0.97) 0%, transparent 100%);
+    border-bottom: 1px solid rgba(201,169,122,0.1);
+  }
+  .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; letter-spacing: 0.18em; color: var(--cream); text-decoration: none; text-transform: uppercase; }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 42px; list-style: none; align-items: center; }
+  .nav-links a { font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream-dim); text-decoration: none; transition: color 0.3s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+  .nav-cta { color: var(--black) !important; background: var(--gold); padding: 12px 26px; transition: background 0.3s !important; }
+  .nav-cta:hover { background: var(--gold-light) !important; }
+
+  /* PAGE HERO */
+  .page-hero {
+    padding: 180px 60px 100px;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(139,38,53,0.12) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  /* Art deco corner */
+  .page-hero::after {
+    content: '';
+    position: absolute;
+    top: 100px; right: 60px;
+    width: 120px; height: 120px;
+    border-top: 1px solid rgba(201,169,122,0.2);
+    border-right: 1px solid rgba(201,169,122,0.2);
+  }
+
+  .page-eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 24px;
+    display: flex; align-items: center; gap: 14px;
+    opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+  .page-eyebrow::before { content: ''; display: block; width: 30px; height: 1px; background: var(--gold); }
+
+  .page-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(64px, 8vw, 110px);
+    font-weight: 300; line-height: 0.9;
+    color: var(--white); margin-bottom: 32px;
+    opacity: 0; animation: fadeUp 0.9s ease 0.35s forwards;
+  }
+  .page-title em { font-style: italic; color: var(--gold); }
+
+  .page-subtitle {
+    font-size: 15px; line-height: 1.8; color: var(--cream-dim);
+    max-width: 500px;
+    opacity: 0; animation: fadeUp 0.9s ease 0.5s forwards;
+  }
+
+  /* Filter tabs */
+  .filter-bar {
+    padding: 0 60px 60px;
+    display: flex; gap: 4px; align-items: center;
+    opacity: 0; animation: fadeUp 0.9s ease 0.65s forwards;
+  }
+  .filter-btn {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--cream-dim);
+    background: transparent;
+    border: 1px solid rgba(201,169,122,0.2);
+    padding: 10px 22px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .filter-btn:hover { color: var(--gold); border-color: rgba(201,169,122,0.5); }
+  .filter-btn.active { color: var(--black); background: var(--gold); border-color: var(--gold); }
+
+  /* =====================
+     SERIES SECTION
+  ===================== */
+  .series-section {
+    padding: 0 60px 120px;
+  }
+
+  .section-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 48px;
+    display: flex; align-items: center; gap: 20px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: rgba(201,169,122,0.15); }
+
+  /* Series cards — large horizontal */
+  .series-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+    margin-bottom: 3px;
+  }
+
+  .series-card {
+    position: relative;
+    overflow: hidden;
+    background: var(--deep);
+    cursor: pointer;
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    transition: transform 0.4s ease;
+  }
+  .series-card:hover { transform: scale(1.01); }
+
+  /* Video placeholder — styled as cinematic frame */
+  .series-media {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+  .series-media-bg {
+    position: absolute; inset: 0;
+    transition: transform 0.6s ease;
+  }
+  .series-card:hover .series-media-bg { transform: scale(1.04); }
+
+  .series-media-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(13,13,13,0.95) 0%, rgba(13,13,13,0.3) 50%, rgba(13,13,13,0.1) 100%);
+    z-index: 1;
+  }
+
+  /* Video placeholder art */
+  .velvet-sessions-bg {
+    background:
+      radial-gradient(ellipse at 30% 60%, rgba(139,38,53,0.5) 0%, transparent 55%),
+      radial-gradient(ellipse at 75% 30%, rgba(201,169,122,0.15) 0%, transparent 50%),
+      linear-gradient(160deg, #1a0508 0%, #0d0d0d 60%, #150a10 100%);
+  }
+  .velvet-brunch-bg {
+    background:
+      radial-gradient(ellipse at 60% 40%, rgba(139,38,53,0.35) 0%, transparent 55%),
+      radial-gradient(ellipse at 20% 70%, rgba(201,169,122,0.2) 0%, transparent 50%),
+      linear-gradient(140deg, #0d0a05 0%, #0d0d0d 50%, #180810 100%);
+  }
+  .press-play-bg {
+    background:
+      radial-gradient(ellipse at 50% 50%, rgba(28,28,28,0.8) 0%, transparent 70%),
+      radial-gradient(ellipse at 80% 20%, rgba(139,38,53,0.25) 0%, transparent 50%),
+      linear-gradient(120deg, #080808 0%, #141414 50%, #0a0810 100%);
+  }
+  .golf-bg {
+    background:
+      radial-gradient(ellipse at 40% 60%, rgba(201,169,122,0.2) 0%, transparent 55%),
+      radial-gradient(ellipse at 70% 30%, rgba(139,38,53,0.2) 0%, transparent 50%),
+      linear-gradient(150deg, #080c08 0%, #0d0d0d 60%, #0a0808 100%);
+  }
+  .juneteenth-bg {
+    background:
+      radial-gradient(ellipse at 50% 40%, rgba(139,38,53,0.4) 0%, transparent 55%),
+      radial-gradient(ellipse at 25% 75%, rgba(201,169,122,0.25) 0%, transparent 50%),
+      linear-gradient(135deg, #150a05 0%, #0d0d0d 50%, #1a0810 100%);
+  }
+
+  /* Deco overlay shape */
+  .series-deco {
+    position: absolute;
+    top: 40px; right: 40px;
+    z-index: 2;
+    opacity: 0.2;
+  }
+
+  /* Video icon — shown until real video drops */
+  .video-badge {
+    position: absolute;
+    top: 28px; left: 28px;
+    z-index: 3;
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8px; font-weight: 700;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: rgba(242,237,228,0.5);
+    background: rgba(13,13,13,0.6);
+    border: 1px solid rgba(201,169,122,0.2);
+    padding: 8px 14px;
+    backdrop-filter: blur(4px);
+  }
+  .video-badge::before {
+    content: '▶';
+    font-size: 8px;
+    color: var(--gold);
+  }
+
+  .series-content {
+    position: relative;
+    z-index: 2;
+    padding: 44px 44px 44px;
+  }
+
+  .series-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8px; font-weight: 700;
+    letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .series-tag .tag-pill {
+    background: var(--burgundy);
+    color: rgba(242,237,228,0.9);
+    padding: 3px 10px;
+    font-size: 7px;
+    letter-spacing: 0.2em;
+  }
+
+  .series-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 3.5vw, 52px);
+    font-weight: 400; line-height: 1.0;
+    color: var(--white); margin-bottom: 16px;
+  }
+  .series-name em { font-style: italic; color: var(--gold); }
+
+  .series-desc {
+    font-size: 13px; line-height: 1.8;
+    color: var(--cream-dim); max-width: 400px;
+    margin-bottom: 32px;
+  }
+
+  .series-actions {
+    display: flex; gap: 16px; align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--black); background: var(--gold);
+    padding: 14px 32px; text-decoration: none;
+    transition: background 0.3s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  .btn-ghost {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 500;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--cream-dim); text-decoration: none;
+    display: flex; align-items: center; gap: 8px;
+    transition: color 0.3s, gap 0.3s;
+  }
+  .btn-ghost:hover { color: var(--gold); gap: 14px; }
+  .btn-ghost::after { content: '→'; font-size: 13px; }
+
+  /* Single wide card (Velvet Sessions) */
+  .series-card.wide {
+    grid-column: 1 / -1;
+    min-height: 480px;
+    flex-direction: row;
+    align-items: flex-end;
+  }
+  .series-card.wide .series-content {
+    max-width: 600px;
+  }
+  .series-card.wide .series-name {
+    font-size: clamp(48px, 5vw, 72px);
+  }
+
+  /* =====================
+     ONE-OFF EVENTS
+  ===================== */
+  .oneoff-section {
+    padding: 0 60px 140px;
+  }
+
+  .oneoff-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3px;
+  }
+
+  .oneoff-card {
+    background: var(--deep);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  .oneoff-card:hover { transform: translateY(-5px); }
+  .oneoff-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+    transform-origin: left;
+  }
+  .oneoff-card:hover::after { transform: scaleX(1); }
+
+  .oneoff-media {
+    width: 100%; aspect-ratio: 4/3;
+    position: relative; overflow: hidden;
+  }
+  .oneoff-media-inner {
+    position: absolute; inset: 0;
+    transition: transform 0.5s ease;
+  }
+  .oneoff-card:hover .oneoff-media-inner { transform: scale(1.05); }
+
+  .oneoff-info {
+    padding: 28px 30px 36px;
+  }
+  .oneoff-status {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8px; font-weight: 700;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .oneoff-status .dot {
+    width: 5px; height: 5px;
+    background: var(--gold); border-radius: 50%;
+    animation: pulse 2s ease infinite;
+  }
+  .oneoff-status.past { color: var(--cream-dim); }
+  .oneoff-status.past .dot { background: var(--cream-dim); animation: none; }
+
+  .oneoff-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px; font-weight: 400; line-height: 1.05;
+    color: var(--white); margin-bottom: 14px;
+  }
+  .oneoff-name em { font-style: italic; color: var(--gold); }
+
+  .oneoff-desc {
+    font-size: 13px; line-height: 1.75;
+    color: var(--cream-dim); margin-bottom: 24px;
+  }
+
+  .oneoff-link {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold); text-decoration: none;
+    display: flex; align-items: center; gap: 8px;
+    transition: gap 0.3s;
+  }
+  .oneoff-link:hover { gap: 14px; }
+  .oneoff-link::after { content: '→'; font-size: 12px; }
+  .oneoff-link.sold-out { color: var(--cream-dim); pointer-events: none; }
+  .oneoff-link.sold-out::after { display: none; }
+
+  /* =====================
+     GALLERY STRIP
+  ===================== */
+  .gallery-strip {
+    padding: 80px 0;
+    background: var(--deep);
+    overflow: hidden;
+    position: relative;
+  }
+  .gallery-strip::before, .gallery-strip::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 120px;
+    z-index: 2;
+  }
+  .gallery-strip::before { left: 0; background: linear-gradient(to right, var(--deep), transparent); }
+  .gallery-strip::after { right: 0; background: linear-gradient(to left, var(--deep), transparent); }
+
+  .gallery-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--gold); text-align: center;
+    margin-bottom: 36px;
+  }
+
+  .gallery-track {
+    display: flex; gap: 4px;
+    animation: galleryScroll 30s linear infinite;
+    width: max-content;
+  }
+  .gallery-track:hover { animation-play-state: paused; }
+
+  .gallery-frame {
+    width: 280px; height: 200px;
+    background: var(--black);
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .gallery-placeholder-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px; font-style: italic;
+    color: rgba(201,169,122,0.2);
+    text-align: center; padding: 20px;
+    line-height: 1.5;
+  }
+
+  /* =====================
+     NEWSLETTER STRIP
+  ===================== */
+  .event-newsletter {
+    padding: 100px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .event-newsletter::before {
+    content: '';
+    position: absolute; top: 0; left: 60px; right: 60px; bottom: 0;
+    border: 1px solid rgba(201,169,122,0.1);
+    pointer-events: none;
+  }
+  .event-newsletter::after {
+    content: '';
+    position: absolute; top: 20px; left: 80px; right: 80px; bottom: 20px;
+    border: 1px solid rgba(201,169,122,0.05);
+    pointer-events: none;
+  }
+
+  /* DECO DIVIDER */
+  .deco-divider {
+    display: flex; align-items: center; justify-content: center;
+    gap: 20px; padding: 0 60px; margin: 0;
+  }
+  .deco-divider-line { flex: 1; height: 1px; background: rgba(201,169,122,0.15); }
+  .deco-divider-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; color: rgba(201,169,122,0.35);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .deco-divider-mark::before, .deco-divider-mark::after { content: '◆'; font-size: 7px; color: rgba(201,169,122,0.25); }
+
+  /* FOOTER */
+  footer {
+    background: #080808;
+    padding: 80px 60px 40px;
+    border-top: 1px solid rgba(201,169,122,0.15);
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 60px; margin-bottom: 60px;
+  }
+  .footer-brand-name { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 500; letter-spacing: 0.1em; color: var(--white); margin-bottom: 16px; }
+  .footer-brand-name span { color: var(--gold); }
+  .footer-tagline { font-size: 13px; line-height: 1.7; color: var(--cream-dim); margin-bottom: 28px; }
+  .footer-social { display: flex; gap: 16px; }
+  .footer-social a { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-dim); text-decoration: none; border: 1px solid rgba(201,169,122,0.2); padding: 8px 14px; transition: border-color 0.3s, color 0.3s; }
+  .footer-social a:hover { border-color: var(--gold); color: var(--gold); }
+  .footer-col-title { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .footer-links a { font-size: 13px; color: var(--cream-dim); text-decoration: none; transition: color 0.3s; letter-spacing: 0.04em; }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding-top: 32px; display: flex; justify-content: space-between; align-items: center; }
+  .footer-copy { font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 0.15em; color: rgba(201,169,122,0.3); }
+  .footer-domain { font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 0.15em; color: rgba(201,169,122,0.5); }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s ease, transform 0.9s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.15s; }
+  .reveal-delay-2 { transition-delay: 0.3s; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  @keyframes galleryScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  @media (max-width: 1100px) {
+    nav { padding: 24px 32px; }
+    .page-hero, .filter-bar, .series-section, .oneoff-section { padding-left: 32px; padding-right: 32px; }
+    .series-grid { grid-template-columns: 1fr; }
+    .series-card.wide { flex-direction: column; }
+    .oneoff-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .event-newsletter { padding: 80px 32px; }
+  }
+
+  
+
+  /* === NAV REBUILD === */
+  #sipmoreNav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9990;
+    padding: 22px 60px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(13,13,13,0.97);
+    border-bottom: 1px solid rgba(201,169,122,0.1);
+  }
+  #sipmoreNav .nav-logo {
+    font-family: 'Cormorant Garamond', serif; font-size: 22px;
+    font-weight: 600; letter-spacing: 0.18em;
+    color: #F2EDE4; text-decoration: none; text-transform: uppercase;
+    z-index: 9992; position: relative;
+  }
+  #sipmoreNav .nav-logo span { color: #C9A97A; }
+  #sipmoreNav .nav-links {
+    display: flex; gap: 42px; list-style: none; align-items: center;
+  }
+  #sipmoreNav .nav-links a {
+    font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: #C8C0B2; text-decoration: none; transition: color 0.3s;
+  }
+  #sipmoreNav .nav-links a:hover { color: #C9A97A; }
+  #sipmoreNav .nav-links a.active { color: #C9A97A; }
+  #sipmoreNav .nav-cta {
+    color: #0D0D0D !important; background: #C9A97A;
+    padding: 12px 26px;
+  }
+  #sipmoreNav .nav-cta:hover { background: #DFC49A !important; }
+
+  /* Hamburger */
+  #navToggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    width: 44px; height: 44px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 9992;
+    position: relative;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    touch-action: manipulation;
+  }
+  #navToggle .bar {
+    display: block;
+    width: 24px; height: 1.5px;
+    background: #C9A97A;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform-origin: center;
+  }
+  #navToggle.is-open .bar:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  #navToggle.is-open .bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  #navToggle.is-open .bar:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  /* Mobile menu */
+  #mobileNav {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: #0D0D0D;
+    z-index: 9991;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+  #mobileNav a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 44px; font-weight: 300;
+    color: #F2EDE4; text-decoration: none;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(201,169,122,0.12);
+    width: 100%; text-align: center;
+    transition: color 0.3s;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+  }
+  #mobileNav a.active { color: #C9A97A; }
+  #mobileNav a:last-child {
+    border: none; margin-top: 24px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: #0D0D0D; background: #C9A97A;
+    padding: 16px 40px; width: auto;
+  }
+
+  @media (max-width: 768px) {
+    #sipmoreNav { padding: 20px 24px; }
+    #sipmoreNav .nav-links { display: none; }
+    #navToggle { display: flex; }
+  }
+
+
+  /* === BOTTOM NAV (mobile only) === */
+  #bottomNav {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 9990;
+    background: #0D0D0D;
+    border-top: 1px solid rgba(201,169,122,0.15);
+    padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+  }
+  #bottomNav ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0; padding: 0;
+  }
+  #bottomNav li a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+    color: rgba(200,192,178,0.45);
+    transition: color 0.2s ease;
+    padding: 4px 12px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  #bottomNav li a.active { color: #C9A97A; }
+  #bottomNav li a:hover { color: #C9A97A; }
+  #bottomNav li a svg {
+    width: 22px; height: 22px;
+    stroke: currentColor;
+  }
+  #bottomNav li a span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 768px) {
+    #bottomNav { display: block; }
+    #sipmoreNav { display: none !important; }
+    #bottomNav { display: block !important; }
+    /* Add bottom padding to body so content isn't hidden behind nav */
+    body { padding-bottom: 72px; }
+  }
+
+</style>
+</head>
+<body>
+<nav id="sipmoreNav">
+  <a href="index.html" class="nav-logo">Sip <span>More</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="events.html" class="active">Events</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html" class="nav-cta">Work With Us</a></li>
+  </ul>
+  <button id="navToggle" type="button" aria-label="Open menu">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </button>
+</nav>
+<div id="mobileNav">
+  <a href="index.html">Home</a>
+  <a href="events.html" class="active">Events</a>
+  <a href="services.html">Services</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Work With Us</a>
+</div>
+
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+
+
+
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-eyebrow">Sip More · Experiences</div>
+  <h1 class="page-title">
+    Show up.<br>
+    Sip <em>well.</em>
+  </h1>
+  <p class="page-subtitle">From intimate R&B nights to cookouts under the sun — every Sip More event is a curated world you step into. New Orleans and beyond.</p>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterEvents('all', this)">All Events</button>
+  <button class="filter-btn" onclick="filterEvents('series', this)">Series</button>
+  <button class="filter-btn" onclick="filterEvents('oneoff', this)">One-Off</button>
+  <button class="filter-btn" onclick="filterEvents('upcoming', this)">Upcoming</button>
+</div>
+
+<!-- ===================== SERIES ===================== -->
+<section class="series-section" id="series-section">
+  <div class="section-label reveal">Ongoing Series</div>
+
+  <div class="series-grid">
+
+    <!-- VELVET SESSIONS — wide featured -->
+    <div class="series-card wide reveal" data-category="series">
+      <div class="series-media">
+        <div class="series-media-bg velvet-sessions-bg"></div>
+        <div class="series-media-overlay"></div>
+        <!-- Art deco SVG -->
+        <svg class="series-deco" width="160" height="200" viewBox="0 0 160 200" fill="none">
+          <rect x="1" y="1" width="158" height="198" stroke="rgba(201,169,122,0.6)" stroke-width="1"/>
+          <rect x="10" y="10" width="140" height="180" stroke="rgba(201,169,122,0.3)" stroke-width="1"/>
+          <path d="M1 40 L40 1" stroke="rgba(201,169,122,0.3)" stroke-width="1"/>
+          <path d="M1 160 L40 199" stroke="rgba(201,169,122,0.3)" stroke-width="1"/>
+          <path d="M159 40 L120 1" stroke="rgba(201,169,122,0.3)" stroke-width="1"/>
+          <path d="M159 160 L120 199" stroke="rgba(201,169,122,0.3)" stroke-width="1"/>
+          <circle cx="80" cy="100" r="20" stroke="rgba(201,169,122,0.4)" stroke-width="1"/>
+          <circle cx="80" cy="100" r="30" stroke="rgba(201,169,122,0.2)" stroke-width="1"/>
+          <line x1="80" y1="70" x2="80" y2="10" stroke="rgba(201,169,122,0.2)" stroke-width="1"/>
+          <line x1="80" y1="130" x2="80" y2="190" stroke="rgba(201,169,122,0.2)" stroke-width="1"/>
+        </svg>
+        <!-- Large background type -->
+        <div style="position:absolute;bottom:-20px;right:-10px;font-family:'Cormorant Garamond',serif;font-size:220px;font-weight:700;color:rgba(139,38,53,0.06);line-height:1;pointer-events:none;user-select:none;z-index:1;">V</div>
+      </div>
+      <div class="video-badge">Video Coming Soon</div>
+      <div class="series-content">
+        <div class="series-tag">
+          Ongoing Series
+          <span class="tag-pill">Flagship</span>
+        </div>
+        <div class="series-name">The Velvet <em>Sessions</em></div>
+        <p class="series-desc">An elevated R&B night rewritten from the ground up. Champagne greetings, roses, lounge seating, curated atmosphere, and a signature after-party cocktail. Music, wine, and culture — together the way they were always meant to be.</p>
+        <div class="series-actions">
+          <a href="https://universe.com" target="_blank" class="btn-primary">Get Tickets</a>
+          <a href="#" class="btn-ghost">About the Series</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- VELVET BRUNCH -->
+    <div class="series-card reveal reveal-delay-1" data-category="series">
+      <div class="series-media">
+        <div class="series-media-bg velvet-brunch-bg"></div>
+        <div class="series-media-overlay"></div>
+        <div style="position:absolute;bottom:-10px;right:-5px;font-family:'Cormorant Garamond',serif;font-size:160px;font-weight:700;color:rgba(201,169,122,0.04);line-height:1;pointer-events:none;z-index:1;">B</div>
+      </div>
+      <div class="video-badge">Video Coming Soon</div>
+      <div class="series-content">
+        <div class="series-tag">Ongoing Series</div>
+        <div class="series-name">Velvet <em>Brunch</em></div>
+        <p class="series-desc">Curated bites, bottomless mimosas, DJs, and live instrumental performances. Brunch, elevated. Part of the Velvet universe.</p>
+        <div class="series-actions">
+          <a href="https://universe.com" target="_blank" class="btn-primary">Get Tickets</a>
+          <a href="#" class="btn-ghost">Learn More</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRESS PLAY -->
+    <div class="series-card reveal reveal-delay-2" data-category="series">
+      <div class="series-media">
+        <div class="series-media-bg press-play-bg"></div>
+        <div class="series-media-overlay"></div>
+        <div style="position:absolute;bottom:-10px;right:-5px;font-family:'Cormorant Garamond',serif;font-size:160px;font-weight:700;color:rgba(201,169,122,0.04);line-height:1;pointer-events:none;z-index:1;">P</div>
+        <!-- Vinyl record deco -->
+        <svg style="position:absolute;top:30px;right:30px;opacity:0.12;z-index:2;" width="100" height="100" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="48" stroke="rgba(201,169,122,0.8)" stroke-width="1" fill="none"/>
+          <circle cx="50" cy="50" r="38" stroke="rgba(201,169,122,0.6)" stroke-width="1" fill="none"/>
+          <circle cx="50" cy="50" r="28" stroke="rgba(201,169,122,0.4)" stroke-width="1" fill="none"/>
+          <circle cx="50" cy="50" r="18" stroke="rgba(201,169,122,0.3)" stroke-width="1" fill="none"/>
+          <circle cx="50" cy="50" r="6" fill="rgba(201,169,122,0.4)"/>
+        </svg>
+      </div>
+      <div class="video-badge">Video Coming Soon</div>
+      <div class="series-content">
+        <div class="series-tag">Ongoing Series</div>
+        <div class="series-name">Press <em>Play</em></div>
+        <p class="series-desc">A weekly interactive music listening experience where the audience votes on themed playlists and album choices. Culture, conversation, and wine — no stage, just the room.</p>
+        <div class="series-actions">
+          <a href="https://universe.com" target="_blank" class="btn-primary">Get Tickets</a>
+          <a href="#" class="btn-ghost">Learn More</a>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /series-grid -->
+</section>
+
+<div class="deco-divider reveal"><div class="deco-divider-line"></div><div class="deco-divider-mark">One Night Only</div><div class="deco-divider-line"></div></div>
+
+<!-- ===================== ONE-OFF EVENTS ===================== -->
+<section class="oneoff-section" id="oneoff-section" style="padding-top: 80px;">
+  <div class="section-label reveal">Standalone Events</div>
+
+  <div class="oneoff-grid">
+
+    <!-- JUNETEENTH -->
+    <div class="oneoff-card reveal" data-category="oneoff upcoming">
+      <div class="oneoff-media">
+        <div class="oneoff-media-inner juneteenth-bg" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+          <div style="text-align:center;position:relative;z-index:2;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:rgba(201,169,122,0.4);line-height:1;">What's</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;font-style:italic;color:rgba(139,38,53,0.7);line-height:1;">Poppin,</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;color:rgba(201,169,122,0.3);line-height:1.2;">Velvet?</div>
+          </div>
+        </div>
+      </div>
+      <div class="oneoff-info">
+        <div class="oneoff-status"><span class="dot"></span>Upcoming · Juneteenth 2026</div>
+        <div class="oneoff-name">What's Poppin, <em>Velvet?</em></div>
+        <p class="oneoff-desc">A Juneteenth Cookout under the Velvet flag. Tiered ticketing, DJ programming, food vendors, VIP sections, and wine flowing through all of it. A celebration worthy of the day.</p>
+        <a href="https://universe.com" target="_blank" class="oneoff-link">Get Tickets</a>
+      </div>
+    </div>
+
+    <!-- SIP & SMILE GOLF CLASSIC -->
+    <div class="oneoff-card reveal reveal-delay-1" data-category="oneoff upcoming">
+      <div class="oneoff-media">
+        <div class="oneoff-media-inner golf-bg" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+          <div style="text-align:center;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;color:rgba(201,169,122,0.4);line-height:1;">Sip</div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.4em;color:rgba(201,169,122,0.25);margin:6px 0;">&</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;color:rgba(201,169,122,0.4);line-height:1;">Smile</div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:0.3em;color:rgba(201,169,122,0.2);margin-top:10px;">GOLF CLASSIC</div>
+          </div>
+        </div>
+      </div>
+      <div class="oneoff-info">
+        <div class="oneoff-status"><span class="dot"></span>Annual · Date TBD 2026</div>
+        <div class="oneoff-name">Sip &amp; Smile<br><em>Golf Classic</em></div>
+        <p class="oneoff-desc">An annual fundraising tournament open to all skill levels, raising funds for orthodontic treatments and wine education scholarships. Golf, wine, and community — in the best possible combination.</p>
+        <a href="https://universe.com" target="_blank" class="oneoff-link">Get Tickets</a>
+      </div>
+    </div>
+
+
+  </div>
+</section>
+
+<!-- GALLERY STRIP -->
+<div class="gallery-strip">
+  <div class="gallery-label">Moments From The Floor</div>
+  <div class="gallery-track" id="galleryTrack">
+    <div class="gallery-frame" style="background:linear-gradient(135deg,#1a0508,#0d0d0d);"><div class="gallery-placeholder-text">Velvet Sessions<br>— photo —</div></div>
+    <div class="gallery-frame" style="background:linear-gradient(135deg,#0d0a05,#141414);"><div class="gallery-placeholder-text">Velvet Brunch<br>— photo —</div></div>
+    <div class="gallery-frame" style="background:linear-gradient(135deg,#080c08,#0d0d0d);"><div class="gallery-placeholder-text">Press Play<br>— photo —</div></div>
+    <div class="gallery-frame" style="background:linear-gradient(135deg,#0a0810,#141414);"><div class="gallery-placeholder-text">Golf Classic<br>— photo —</div></div>
+    <div class="gallery-frame" style="background:linear-gradient(135deg,#150a05,#0d0d0d);"><div class="gallery-placeholder-text">Juneteenth<br>— photo —</div></div>
+    <!-- Duplicate for seamless loop -->
+    <div class="gallery-frame" style="background:linear-gradient(135deg,#1a0508,#0d0d0d);"><div class="gallery-placeholder-text">Velvet Sessions<br>— photo —</div></div>
+    <div class="gallery-frame" style="background:linear-gradient(135deg,#0d0a05,#141414);"><div class="gallery-placeholder-text">Velvet Brunch<br>— photo —</div></div>
+    <div class="gallery-frame" style="background:linear-gradient(135deg,#080c08,#0d0d0d);"><div class="gallery-placeholder-text">Press Play<br>— photo —</div></div>
+    <div class="gallery-frame" style="background:linear-gradient(135deg,#0a0810,#141414);"><div class="gallery-placeholder-text">Golf Classic<br>— photo —</div></div>
+    <div class="gallery-frame" style="background:linear-gradient(135deg,#150a05,#0d0d0d);"><div class="gallery-placeholder-text">Juneteenth<br>— photo —</div></div>
+  </div>
+</div>
+
+<!-- NEWSLETTER CTA -->
+<section class="event-newsletter">
+  <div class="page-eyebrow" style="justify-content:center;opacity:1;animation:none;margin-bottom:20px;">Stay in the Loop</div>
+  <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4vw,56px);font-weight:300;color:var(--white);margin-bottom:16px;line-height:1.1;">
+    The Sip More <em style="font-style:italic;color:var(--gold);">Report</em>
+  </h2>
+  <p style="font-size:14px;line-height:1.8;color:var(--cream-dim);max-width:440px;margin:0 auto 40px;">Event drops, wine picks, and what we're building next — quarterly in your inbox.</p>
+  <form style="display:flex;gap:0;max-width:460px;margin:0 auto;" onsubmit="handleSignup(event)">
+    <input type="email" placeholder="Your email address" id="newsletterEmail" required
+      style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(201,169,122,0.3);border-right:none;padding:16px 24px;font-family:'Lato',sans-serif;font-size:13px;color:var(--cream);outline:none;">
+    <button type="submit"
+      style="background:var(--gold);border:none;padding:16px 28px;font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.25em;text-transform:uppercase;color:var(--black);cursor:pointer;transition:background 0.3s;"
+      onmouseover="this.style.background='#DFC49A'" onmouseout="this.style.background='var(--gold)'">Subscribe</button>
+  </form>
+  <p id="signupConfirm" style="font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:0.2em;color:var(--gold);margin-top:20px;opacity:0;transition:opacity 0.4s;">◆ &nbsp; You're on the list.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-name">Sip <span>More</span></div>
+      <p class="footer-tagline">Wine and experiential hospitality, rooted in New Orleans culture.</p>
+      <div class="footer-social">
+        <a href="#">IG</a><a href="#">TK</a><a href="#">LI</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Services</div>
+      <ul class="footer-links">
+        <li><a href="#">Pour — Consultation</a></li>
+        <li><a href="#">Blend — Programming</a></li>
+        <li><a href="#">Reserve — Partnership</a></li>
+        <li><a href="#">Add-On Services</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Experiences</div>
+      <ul class="footer-links">
+        <li><a href="#">The Velvet Sessions</a></li>
+        <li><a href="#">Velvet Brunch</a></li>
+        <li><a href="#">Press Play</a></li>
+        <li><a href="#">Sip & Smile Golf Classic</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Connect</div>
+      <ul class="footer-links">
+        <li><a href="#">About Mahlik</a></li>
+        <li><a href="#">The Sip More Report</a></li>
+        <li><a href="#">Work With Us</a></li>
+        <li><a href="#">sipmore.wine</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 Sip More LLC. All rights reserved. New Orleans, LA.</div>
+    <div class="footer-domain">sipmore.wine</div>
+  </div>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursor.style.left = mouseX + 'px'; cursor.style.top = mouseY + 'px';
+  });
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.12; ringY += (mouseY - ringY) * 0.12;
+    ring.style.left = ringX + 'px'; ring.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Filter
+  function filterEvents(category, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const allCards = document.querySelectorAll('[data-category]');
+    const seriesSection = document.getElementById('series-section');
+    const oneoffSection = document.getElementById('oneoff-section');
+
+    allCards.forEach(card => {
+      if (category === 'all') {
+        card.style.display = '';
+      } else if (card.dataset.category.includes(category)) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    if (category === 'oneoff') { seriesSection.style.display = 'none'; oneoffSection.style.display = ''; }
+    else if (category === 'series') { seriesSection.style.display = ''; oneoffSection.style.display = 'none'; }
+    else { seriesSection.style.display = ''; oneoffSection.style.display = ''; }
+  }
+
+  // Newsletter
+  function handleSignup(e) {
+    e.preventDefault();
+    document.getElementById('signupConfirm').style.opacity = '1';
+    document.getElementById('newsletterEmail').value = '';
+  }
+
+
+  (function() {
+    function initMenu() {
+      var btn = document.getElementById('hamburger');
+      var menu = document.getElementById('mobileMenu');
+      if (!btn || !menu) return;
+      var isOpen = false;
+      
+      btn.addEventListener('click', toggleMenu);
+      btn.addEventListener('touchend', toggleMenu);
+      menu.querySelectorAll('a').forEach(function(a) {
+        a.addEventListener('click', function() {
+          isOpen = false;
+          menu.style.display = 'none';
+          btn.classList.remove('open');
+          document.body.style.overflow = '';
+        });
+      });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initMenu);
+    } else {
+      initMenu();
+    }
+  })();
+
+</script>
+  });
+
+
+<script>
+(function(){
+  var toggle = document.getElementById('navToggle');
+  var menu = document.getElementById('mobileNav');
+  if (!toggle || !menu) return;
+  function openMenu() {
+    menu.style.display = 'flex';
+    toggle.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMenu() {
+    menu.style.display = 'none';
+    toggle.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+  toggle.addEventListener('touchstart', function(e){
+    e.preventDefault();
+    toggle.classList.contains('is-open') ? closeMenu() : openMenu();
+  }, {passive: false});
+  toggle.addEventListener('click', function(e){
+    e.preventDefault();
+    toggle.classList.contains('is-open') ? closeMenu() : openMenu();
+  });
+  var links = menu.querySelectorAll('a');
+  links.forEach(function(a){
+    a.addEventListener('touchstart', function(){ closeMenu(); }, {passive: true});
+    a.addEventListener('click', function(){ closeMenu(); });
+  });
+})();
+</script>
+
+
+<!-- BOTTOM NAV -->
+<div id="bottomNav">
+  <ul>
+    <li><a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg><span>Home</span></a></li>
+    <li><a href="events.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span>Events</span></a></li>
+    <li><a href="services.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6L12 2z"/></svg><span>Services</span></a></li>
+    <li><a href="about.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>About</span></a></li>
+    <li><a href="contact.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><span>Contact</span></a></li>
+  </ul>
+</div>
+
+</body>
+</html>

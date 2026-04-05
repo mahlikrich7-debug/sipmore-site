@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services — Sip More</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0D0D0D;
+    --deep: #1C1C1C;
+    --burgundy: #8B2635;
+    --burgundy-light: #A63040;
+    --gold: #C9A97A;
+    --gold-light: #DFC49A;
+    --cream: #F2EDE4;
+    --cream-dim: #C8C0B2;
+    --white: #FAFAF8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--cream);
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: auto;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; touch-action: none; z-index: 1; opacity: 0.35;
+  }
+
+  .cursor { position: fixed; width: 10px; height: 10px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); mix-blend-mode: screen; }
+  .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(201,169,122,0.5); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: width 0.3s, height 0.3s; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+    padding: 28px 60px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: linear-gradient(to bottom, rgba(13,13,13,0.97) 0%, transparent 100%);
+    border-bottom: 1px solid rgba(201,169,122,0.1);
+  }
+  .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; letter-spacing: 0.18em; color: var(--cream); text-decoration: none; text-transform: uppercase; }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 42px; list-style: none; align-items: center; }
+  .nav-links a { font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream-dim); text-decoration: none; transition: color 0.3s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+  .nav-cta { color: var(--black) !important; background: var(--gold); padding: 12px 26px; transition: background 0.3s !important; }
+  .nav-cta:hover { background: var(--gold-light) !important; }
+
+  /* PAGE HERO */
+  .page-hero {
+    min-height: 60vh;
+    padding: 180px 60px 100px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  /* Animated deco background */
+  .hero-deco-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 80% 50%, rgba(139,38,53,0.1) 0%, transparent 55%),
+      radial-gradient(ellipse at 20% 80%, rgba(201,169,122,0.05) 0%, transparent 50%);
+  }
+
+  /* Large rotated SERVICES text behind */
+  .hero-bg-text {
+    position: absolute;
+    right: -60px; top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 220px; font-weight: 700;
+    color: rgba(201,169,122,0.03);
+    line-height: 1; white-space: nowrap;
+    pointer-events: none; user-select: none;
+    letter-spacing: -0.02em;
+  }
+
+  /* Art deco corner marks */
+  .corner-tl, .corner-br {
+    position: absolute;
+    width: 100px; height: 100px;
+  }
+  .corner-tl {
+    top: 100px; left: 60px;
+    border-top: 1px solid rgba(201,169,122,0.2);
+    border-left: 1px solid rgba(201,169,122,0.2);
+  }
+  .corner-br {
+    bottom: 40px; right: 60px;
+    border-bottom: 1px solid rgba(201,169,122,0.2);
+    border-right: 1px solid rgba(201,169,122,0.2);
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 800px; }
+
+  .page-eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 24px;
+    display: flex; align-items: center; gap: 14px;
+    opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+  .page-eyebrow::before { content: ''; display: block; width: 30px; height: 1px; background: var(--gold); }
+
+  .page-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(64px, 8vw, 108px);
+    font-weight: 300; line-height: 0.9; color: var(--white);
+    margin-bottom: 36px;
+    opacity: 0; animation: fadeUp 0.9s ease 0.35s forwards;
+  }
+  .page-title em { font-style: italic; color: var(--gold); }
+
+  .page-subtitle {
+    font-size: 15px; line-height: 1.85; color: var(--cream-dim);
+    max-width: 560px;
+    opacity: 0; animation: fadeUp 0.9s ease 0.5s forwards;
+  }
+
+  /* =====================
+     HOW IT WORKS STRIP
+  ===================== */
+  .process-strip {
+    background: var(--deep);
+    padding: 72px 60px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .process-strip::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(201,169,122,0.3), transparent);
+  }
+  .process-strip::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(201,169,122,0.3), transparent);
+  }
+
+  .process-step {
+    padding: 0 40px;
+    border-right: 1px solid rgba(201,169,122,0.1);
+    position: relative;
+  }
+  .process-step:first-child { padding-left: 0; }
+  .process-step:last-child { border-right: none; }
+
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 64px; font-weight: 300;
+    color: rgba(201,169,122,0.12); line-height: 1;
+    margin-bottom: 16px;
+  }
+  .step-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 12px;
+  }
+  .step-desc {
+    font-size: 13px; line-height: 1.75;
+    color: var(--cream-dim);
+  }
+
+  /* =====================
+     TIERS SECTION
+  ===================== */
+  .tiers-section {
+    padding: 120px 60px;
+    position: relative;
+  }
+
+  .section-header {
+    margin-bottom: 72px;
+  }
+  .section-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 20px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .section-tag::before { content: ''; display: block; width: 28px; height: 1px; background: var(--gold); }
+  .section-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(40px, 4.5vw, 64px);
+    font-weight: 300; line-height: 1.0; color: var(--white);
+  }
+  .section-headline em { font-style: italic; color: var(--gold); }
+
+  /* Tier cards — stacked with alternating layout */
+  .tier-card {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    margin-bottom: 3px;
+    position: relative;
+    overflow: hidden;
+    min-height: 440px;
+    transition: transform 0.3s ease;
+  }
+  .tier-card:hover { transform: translateY(-3px); }
+
+  /* Flip layout for even cards */
+  .tier-card.flip { grid-template-columns: 1.4fr 1fr; }
+  .tier-card.flip .tier-visual { order: -1; }
+
+  .tier-info {
+    background: var(--deep);
+    padding: 64px 56px;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .tier-info::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 3px; height: 0;
+    background: var(--gold);
+    transition: height 0.5s ease;
+  }
+  .tier-card:hover .tier-info::before { height: 100%; }
+
+  /* Featured tier */
+  .tier-card.featured .tier-info {
+    background: var(--burgundy);
+  }
+  .tier-card.featured .tier-info::before { background: var(--gold-light); }
+
+  .tier-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px; font-weight: 400;
+    letter-spacing: 0.1em; color: var(--gold);
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+  .tier-card.featured .tier-num { color: rgba(242,237,228,0.6); }
+
+  .tier-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 5vw, 76px);
+    font-weight: 300; line-height: 0.9; color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .tier-type {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 28px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid rgba(201,169,122,0.2);
+  }
+  .tier-card.featured .tier-type {
+    color: rgba(242,237,228,0.7);
+    border-color: rgba(242,237,228,0.15);
+  }
+
+  .tier-desc {
+    font-size: 14px; line-height: 1.85;
+    color: var(--cream-dim); margin-bottom: 32px;
+  }
+  .tier-card.featured .tier-desc { color: rgba(242,237,228,0.8); }
+
+  .tier-features {
+    list-style: none; margin-bottom: 44px;
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .tier-features li {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--cream-dim);
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    display: flex; align-items: center; gap: 14px;
+  }
+  .tier-card.featured .tier-features li {
+    color: rgba(242,237,228,0.8);
+    border-color: rgba(255,255,255,0.1);
+  }
+  .tier-features li::before {
+    content: '';
+    width: 5px; height: 5px;
+    background: var(--gold); flex-shrink: 0;
+    transform: rotate(45deg);
+  }
+  .tier-card.featured .tier-features li::before { background: rgba(242,237,228,0.7); }
+
+  .tier-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 20px; flex-wrap: wrap;
+  }
+  .tier-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px; font-weight: 300; color: var(--white); line-height: 1;
+  }
+  .tier-price-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; letter-spacing: 0.15em;
+    color: var(--cream-dim); display: block; margin-top: 4px;
+  }
+  .tier-card.featured .tier-price-label { color: rgba(242,237,228,0.6); }
+
+  .btn-primary {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--black); background: var(--gold);
+    padding: 14px 32px; text-decoration: none;
+    transition: background 0.3s, transform 0.2s;
+    white-space: nowrap;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--cream); border: 1px solid rgba(201,169,122,0.4);
+    padding: 13px 32px; text-decoration: none;
+    transition: border-color 0.3s, color 0.3s;
+    white-space: nowrap;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* Tier visual panel */
+  .tier-visual {
+    position: relative; overflow: hidden;
+  }
+  .tier-visual-inner {
+    position: absolute; inset: 0;
+    transition: transform 0.6s ease;
+  }
+  .tier-card:hover .tier-visual-inner { transform: scale(1.04); }
+
+  .pour-visual {
+    background:
+      radial-gradient(ellipse at 30% 60%, rgba(139,38,53,0.25) 0%, transparent 55%),
+      radial-gradient(ellipse at 75% 25%, rgba(201,169,122,0.08) 0%, transparent 45%),
+      linear-gradient(150deg, #0f0608 0%, #0d0d0d 60%, #141010 100%);
+  }
+  .blend-visual {
+    background:
+      radial-gradient(ellipse at 60% 50%, rgba(139,38,53,0.35) 0%, transparent 55%),
+      radial-gradient(ellipse at 25% 30%, rgba(201,169,122,0.12) 0%, transparent 45%),
+      linear-gradient(130deg, #150508 0%, #1a0810 50%, #0d0d0d 100%);
+  }
+  .reserve-visual {
+    background:
+      radial-gradient(ellipse at 40% 55%, rgba(201,169,122,0.15) 0%, transparent 55%),
+      radial-gradient(ellipse at 70% 30%, rgba(139,38,53,0.2) 0%, transparent 45%),
+      linear-gradient(145deg, #080608 0%, #0d0d0d 55%, #10100c 100%);
+  }
+
+  /* Large tier name ghost text on visual */
+  .tier-ghost {
+    position: absolute;
+    bottom: -20px; right: -10px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 180px; font-weight: 700;
+    line-height: 1; color: rgba(201,169,122,0.04);
+    pointer-events: none; user-select: none;
+  }
+
+  /* Art deco SVG marks on visual panels */
+  .tier-deco-svg {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.12;
+    transition: opacity 0.4s ease;
+  }
+  .tier-card:hover .tier-deco-svg { opacity: 0.22; }
+
+  /* Tier number large */
+  .tier-visual-num {
+    position: absolute;
+    top: 40px; left: 40px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 100px; font-weight: 300;
+    color: rgba(201,169,122,0.08); line-height: 1;
+    z-index: 1;
+  }
+
+  /* =====================
+     ADD-ONS SECTION
+  ===================== */
+  .addons-section {
+    padding: 0 60px 120px;
+    background: var(--black);
+  }
+
+  .addons-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3px;
+    margin-top: 64px;
+  }
+
+  .addon-card {
+    background: var(--deep);
+    padding: 40px 32px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    cursor: default;
+  }
+  .addon-card:hover { transform: translateY(-4px); }
+  .addon-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px; background: var(--gold);
+    transform: scaleX(0); transition: transform 0.4s ease;
+    transform-origin: left;
+  }
+  .addon-card:hover::before { transform: scaleX(1); }
+
+  .addon-icon {
+    font-size: 28px; margin-bottom: 20px;
+    opacity: 0.5;
+  }
+  .addon-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px; font-weight: 400; color: var(--white);
+    line-height: 1.1; margin-bottom: 12px;
+  }
+  .addon-desc {
+    font-size: 12px; line-height: 1.75;
+    color: var(--cream-dim); margin-bottom: 20px;
+  }
+  .addon-price {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* Velvet Sessions licensing — featured addon */
+  .addon-card.featured-addon {
+    background: linear-gradient(135deg, #150810, #0d0d0d);
+    border: 1px solid rgba(201,169,122,0.15);
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    padding: 48px 48px;
+  }
+  .addon-card.featured-addon .addon-name { font-size: 36px; }
+  .addon-card.featured-addon .addon-desc { font-size: 13px; line-height: 1.8; }
+
+  /* =====================
+     PRICING PHILOSOPHY
+  ===================== */
+  .philosophy-section {
+    padding: 120px 60px;
+    background: var(--deep);
+    position: relative;
+    overflow: hidden;
+  }
+  .philosophy-section::before {
+    content: '';
+    position: absolute; top: 40px; left: 40px;
+    width: 100px; height: 100px;
+    border-top: 1px solid rgba(201,169,122,0.2);
+    border-left: 1px solid rgba(201,169,122,0.2);
+  }
+  .philosophy-section::after {
+    content: '';
+    position: absolute; bottom: 40px; right: 40px;
+    width: 100px; height: 100px;
+    border-bottom: 1px solid rgba(201,169,122,0.2);
+    border-right: 1px solid rgba(201,169,122,0.2);
+  }
+
+  .philosophy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: center;
+  }
+
+  .philosophy-left .section-headline {
+    margin-bottom: 32px;
+  }
+  .philosophy-left p {
+    font-size: 15px; line-height: 1.9;
+    color: var(--cream-dim); margin-bottom: 16px;
+  }
+
+  .factor-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+    margin-top: 12px;
+  }
+  .factor-item {
+    background: var(--black);
+    padding: 24px 24px;
+    display: flex; align-items: flex-start; gap: 14px;
+  }
+  .factor-diamond {
+    width: 7px; height: 7px;
+    background: var(--gold); flex-shrink: 0;
+    transform: rotate(45deg); margin-top: 5px;
+  }
+  .factor-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.08em; color: var(--cream-dim);
+    line-height: 1.6;
+  }
+
+  .philosophy-right {
+    position: relative;
+  }
+
+  /* Quote block */
+  .quote-block {
+    position: relative;
+    padding: 60px 56px;
+    background: var(--black);
+    border-left: 3px solid var(--gold);
+  }
+  .quote-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 120px; font-weight: 300;
+    color: rgba(201,169,122,0.1); line-height: 0.6;
+    position: absolute; top: 24px; left: 36px;
+    pointer-events: none;
+  }
+  .quote-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px; font-weight: 300;
+    font-style: italic; line-height: 1.4;
+    color: var(--white); position: relative; z-index: 1;
+    margin-bottom: 28px;
+  }
+  .quote-text em { color: var(--gold); font-style: normal; }
+  .quote-attr {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* =====================
+     CTA SECTION
+  ===================== */
+  .cta-section {
+    padding: 160px 60px;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 700px; height: 500px;
+    background: radial-gradient(ellipse, rgba(139,38,53,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(48px, 5.5vw, 80px);
+    font-weight: 300; line-height: 1.0;
+    color: var(--white); margin-bottom: 24px;
+  }
+  .cta-headline em { font-style: italic; color: var(--gold); }
+  .cta-sub {
+    font-size: 15px; line-height: 1.8; color: var(--cream-dim);
+    max-width: 480px; margin: 0 auto 52px;
+  }
+  .cta-actions { display: flex; gap: 20px; justify-content: center; align-items: center; }
+
+  /* DECO DIVIDER */
+  .deco-divider { display: flex; align-items: center; justify-content: center; gap: 20px; padding: 0 60px; }
+  .deco-divider-line { flex: 1; height: 1px; background: rgba(201,169,122,0.15); }
+  .deco-divider-mark { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: rgba(201,169,122,0.35); display: flex; align-items: center; gap: 10px; }
+  .deco-divider-mark::before, .deco-divider-mark::after { content: '◆'; font-size: 7px; color: rgba(201,169,122,0.25); }
+
+  /* FOOTER */
+  footer { background: #080808; padding: 80px 60px 40px; border-top: 1px solid rgba(201,169,122,0.15); }
+  .footer-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 60px; }
+  .footer-brand-name { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 500; letter-spacing: 0.1em; color: var(--white); margin-bottom: 16px; }
+  .footer-brand-name span { color: var(--gold); }
+  .footer-tagline { font-size: 13px; line-height: 1.7; color: var(--cream-dim); margin-bottom: 28px; }
+  .footer-social { display: flex; gap: 16px; }
+  .footer-social a { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-dim); text-decoration: none; border: 1px solid rgba(201,169,122,0.2); padding: 8px 14px; transition: border-color 0.3s, color 0.3s; }
+  .footer-social a:hover { border-color: var(--gold); color: var(--gold); }
+  .footer-col-title { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .footer-links a { font-size: 13px; color: var(--cream-dim); text-decoration: none; transition: color 0.3s; letter-spacing: 0.04em; }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding-top: 32px; display: flex; justify-content: space-between; align-items: center; }
+  .footer-copy { font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 0.15em; color: rgba(201,169,122,0.3); }
+  .footer-domain { font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 0.15em; color: rgba(201,169,122,0.5); }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s ease, transform 0.9s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.15s; }
+  .reveal-delay-2 { transition-delay: 0.3s; }
+  .reveal-delay-3 { transition-delay: 0.45s; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 1100px) {
+    nav { padding: 24px 32px; }
+    .page-hero, .tiers-section, .addons-section, .philosophy-section, .cta-section { padding-left: 32px; padding-right: 32px; }
+    .tier-card, .tier-card.flip { grid-template-columns: 1fr; min-height: auto; }
+    .tier-visual { min-height: 260px; }
+    .tier-card.flip .tier-visual { order: 0; }
+    .process-strip { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .addons-grid { grid-template-columns: 1fr 1fr; }
+    .addon-card.featured-addon { grid-column: span 2; grid-template-columns: 1fr; gap: 20px; }
+    .philosophy-grid { grid-template-columns: 1fr; gap: 60px; }
+    .factor-list { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+  }
+
+  
+
+  /* === NAV REBUILD === */
+  #sipmoreNav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9990;
+    padding: 22px 60px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(13,13,13,0.97);
+    border-bottom: 1px solid rgba(201,169,122,0.1);
+  }
+  #sipmoreNav .nav-logo {
+    font-family: 'Cormorant Garamond', serif; font-size: 22px;
+    font-weight: 600; letter-spacing: 0.18em;
+    color: #F2EDE4; text-decoration: none; text-transform: uppercase;
+    z-index: 9992; position: relative;
+  }
+  #sipmoreNav .nav-logo span { color: #C9A97A; }
+  #sipmoreNav .nav-links {
+    display: flex; gap: 42px; list-style: none; align-items: center;
+  }
+  #sipmoreNav .nav-links a {
+    font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: #C8C0B2; text-decoration: none; transition: color 0.3s;
+  }
+  #sipmoreNav .nav-links a:hover { color: #C9A97A; }
+  #sipmoreNav .nav-links a.active { color: #C9A97A; }
+  #sipmoreNav .nav-cta {
+    color: #0D0D0D !important; background: #C9A97A;
+    padding: 12px 26px;
+  }
+  #sipmoreNav .nav-cta:hover { background: #DFC49A !important; }
+
+  /* Hamburger */
+  #navToggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    width: 44px; height: 44px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 9992;
+    position: relative;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    touch-action: manipulation;
+  }
+  #navToggle .bar {
+    display: block;
+    width: 24px; height: 1.5px;
+    background: #C9A97A;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform-origin: center;
+  }
+  #navToggle.is-open .bar:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  #navToggle.is-open .bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  #navToggle.is-open .bar:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  /* Mobile menu */
+  #mobileNav {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: #0D0D0D;
+    z-index: 9991;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+  #mobileNav a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 44px; font-weight: 300;
+    color: #F2EDE4; text-decoration: none;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(201,169,122,0.12);
+    width: 100%; text-align: center;
+    transition: color 0.3s;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+  }
+  #mobileNav a.active { color: #C9A97A; }
+  #mobileNav a:last-child {
+    border: none; margin-top: 24px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: #0D0D0D; background: #C9A97A;
+    padding: 16px 40px; width: auto;
+  }
+
+  @media (max-width: 768px) {
+    #sipmoreNav { padding: 20px 24px; }
+    #sipmoreNav .nav-links { display: none; }
+    #navToggle { display: flex; }
+  }
+
+
+  /* === BOTTOM NAV (mobile only) === */
+  #bottomNav {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 9990;
+    background: #0D0D0D;
+    border-top: 1px solid rgba(201,169,122,0.15);
+    padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+  }
+  #bottomNav ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0; padding: 0;
+  }
+  #bottomNav li a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+    color: rgba(200,192,178,0.45);
+    transition: color 0.2s ease;
+    padding: 4px 12px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  #bottomNav li a.active { color: #C9A97A; }
+  #bottomNav li a:hover { color: #C9A97A; }
+  #bottomNav li a svg {
+    width: 22px; height: 22px;
+    stroke: currentColor;
+  }
+  #bottomNav li a span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 768px) {
+    #bottomNav { display: block; }
+    #sipmoreNav { display: none !important; }
+    #bottomNav { display: block !important; }
+    /* Add bottom padding to body so content isn't hidden behind nav */
+    body { padding-bottom: 72px; }
+  }
+
+</style>
+</head>
+<body>
+<nav id="sipmoreNav">
+  <a href="index.html" class="nav-logo">Sip <span>More</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="services.html" class="active">Services</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html" class="nav-cta">Work With Us</a></li>
+  </ul>
+  <button id="navToggle" type="button" aria-label="Open menu">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </button>
+</nav>
+<div id="mobileNav">
+  <a href="index.html">Home</a>
+  <a href="events.html">Events</a>
+  <a href="services.html" class="active">Services</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Work With Us</a>
+</div>
+
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+
+
+
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="hero-deco-bg"></div>
+  <div class="hero-bg-text">Services</div>
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="hero-content">
+    <div class="page-eyebrow">Sip More · Consulting</div>
+    <h1 class="page-title">
+      Your program,<br>
+      <em>elevated.</em>
+    </h1>
+    <p class="page-subtitle">Sip More works with restaurants and hospitality groups who want their beverage experience to feel as intentional as the rest of what they do. Three tiers. One philosophy. No cookie-cutter packages.</p>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<div class="process-strip reveal">
+  <div class="process-step">
+    <div class="step-num">01</div>
+    <div class="step-title">Discovery Call</div>
+    <p class="step-desc">We start with a complimentary conversation to understand your venue, your guests, and what you're trying to build. No pitch — just listening.</p>
+  </div>
+  <div class="process-step">
+    <div class="step-num">02</div>
+    <div class="step-title">Custom Proposal</div>
+    <p class="step-desc">Every engagement is scoped to fit your specific needs and priced accordingly. You'll receive a clear proposal before anything is signed.</p>
+  </div>
+  <div class="process-step">
+    <div class="step-num">03</div>
+    <div class="step-title">We Get to Work</div>
+    <p class="step-desc">Once we're aligned, Mahlik steps in as your beverage partner — building, training, programming, or all of the above depending on your tier.</p>
+  </div>
+  <div class="process-step">
+    <div class="step-num">04</div>
+    <div class="step-title">Ongoing Refinement</div>
+    <p class="step-desc">For retainer clients, we check in regularly, adjust based on what's working, and keep the program fresh season over season.</p>
+  </div>
+</div>
+
+<!-- TIERS -->
+<section class="tiers-section">
+  <div class="section-header reveal">
+    <div class="section-tag">Consulting Tiers</div>
+    <h2 class="section-headline">Three ways to work<br><em>together.</em></h2>
+  </div>
+
+  <!-- POUR -->
+  <div class="tier-card reveal">
+    <div class="tier-info">
+      <div class="tier-num">Tier One</div>
+      <div class="tier-name">Pour</div>
+      <div class="tier-type">Project-Based Consultation</div>
+      <p class="tier-desc">Built for venues that need a targeted intervention. POUR is a single-scope engagement with a defined deliverable, a clear timeline, and no ongoing commitment required.</p>
+      <ul class="tier-features">
+        <li>Wine list audit & complete redesign</li>
+        <li>Single staff training session (2–3 hrs)</li>
+        <li>One-time event concept & run-of-show</li>
+        <li>Wine pairing menu development</li>
+      </ul>
+      <div class="tier-footer">
+        <div>
+          <div class="tier-price">$1,500</div>
+          <span class="tier-price-label">Starting · Final fee based on scope</span>
+        </div>
+        <a href="#contact" class="btn-primary">Start Here</a>
+      </div>
+    </div>
+    <div class="tier-visual">
+      <div class="tier-visual-inner pour-visual"></div>
+      <div class="tier-visual-num">I</div>
+      <div class="tier-ghost">P</div>
+      <svg class="tier-deco-svg" width="180" height="220" viewBox="0 0 180 220" fill="none">
+        <rect x="1" y="1" width="178" height="218" stroke="rgba(201,169,122,0.8)" stroke-width="1"/>
+        <rect x="12" y="12" width="156" height="196" stroke="rgba(201,169,122,0.4)" stroke-width="1"/>
+        <path d="M1 50 L50 1" stroke="rgba(201,169,122,0.4)" stroke-width="1"/>
+        <path d="M1 170 L50 219" stroke="rgba(201,169,122,0.4)" stroke-width="1"/>
+        <path d="M179 50 L130 1" stroke="rgba(201,169,122,0.4)" stroke-width="1"/>
+        <path d="M179 170 L130 219" stroke="rgba(201,169,122,0.4)" stroke-width="1"/>
+        <circle cx="90" cy="110" r="28" stroke="rgba(201,169,122,0.5)" stroke-width="1"/>
+        <circle cx="90" cy="110" r="16" stroke="rgba(201,169,122,0.3)" stroke-width="1"/>
+        <circle cx="90" cy="110" r="5" fill="rgba(201,169,122,0.4)"/>
+        <line x1="90" y1="82" x2="90" y2="12" stroke="rgba(201,169,122,0.2)" stroke-width="1"/>
+        <line x1="90" y1="138" x2="90" y2="208" stroke="rgba(201,169,122,0.2)" stroke-width="1"/>
+        <line x1="62" y1="110" x2="12" y2="110" stroke="rgba(201,169,122,0.2)" stroke-width="1"/>
+        <line x1="118" y1="110" x2="168" y2="110" stroke="rgba(201,169,122,0.2)" stroke-width="1"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- BLEND — featured -->
+  <div class="tier-card flip featured reveal">
+    <div class="tier-info">
+      <div class="tier-num">Tier Two</div>
+      <div class="tier-name">Blend</div>
+      <div class="tier-type">Monthly Programming Retainer</div>
+      <p class="tier-desc">For venues ready to build something consistent. BLEND clients receive ongoing wine programming, staff education, and event curation every month — keeping the experience fresh and the team sharp.</p>
+      <ul class="tier-features">
+        <li>Wine program updates & seasonal curation</li>
+        <li>Monthly staff training or tasting session</li>
+        <li>1–2 event concepts or activations per month</li>
+        <li>Beverage menu consulting & recommendations</li>
+        <li>Monthly strategy check-in & reporting</li>
+      </ul>
+      <div class="tier-footer">
+        <div>
+          <div class="tier-price">$2,500<span style="font-size:20px;color:rgba(242,237,228,0.5);"> /mo</span></div>
+          <span class="tier-price-label">3-month minimum commitment</span>
+        </div>
+        <a href="#contact" class="btn-primary">Get Started</a>
+      </div>
+    </div>
+    <div class="tier-visual">
+      <div class="tier-visual-inner blend-visual"></div>
+      <div class="tier-visual-num" style="color:rgba(242,237,228,0.05);">II</div>
+      <div class="tier-ghost">B</div>
+      <svg class="tier-deco-svg" width="180" height="220" viewBox="0 0 180 220" fill="none">
+        <rect x="1" y="1" width="178" height="218" stroke="rgba(201,169,122,0.8)" stroke-width="1"/>
+        <rect x="12" y="12" width="156" height="196" stroke="rgba(201,169,122,0.4)" stroke-width="1"/>
+        <polygon points="90,20 160,80 160,160 90,200 20,160 20,80" stroke="rgba(201,169,122,0.5)" stroke-width="1" fill="none"/>
+        <polygon points="90,50 135,85 135,145 90,175 45,145 45,85" stroke="rgba(201,169,122,0.3)" stroke-width="1" fill="none"/>
+        <circle cx="90" cy="110" r="12" stroke="rgba(201,169,122,0.4)" stroke-width="1" fill="none"/>
+        <circle cx="90" cy="110" r="4" fill="rgba(201,169,122,0.5)"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- RESERVE -->
+  <div class="tier-card reveal">
+    <div class="tier-info">
+      <div class="tier-num">Tier Three</div>
+      <div class="tier-name">Reserve</div>
+      <div class="tier-type">Full Beverage Partnership</div>
+      <p class="tier-desc">The most comprehensive engagement. RESERVE clients get Mahlik as their embedded beverage director — handling program strategy, staff development, activations, and brand experience from end to end.</p>
+      <ul class="tier-features">
+        <li>Full beverage program oversight</li>
+        <li>Vendor sourcing & supplier relationship management</li>
+        <li>Signature event series development</li>
+        <li>Brand collaboration facilitation</li>
+        <li>Quarterly strategic reviews & planning</li>
+        <li>Everything in BLEND, plus more</li>
+      </ul>
+      <div class="tier-footer">
+        <div>
+          <div class="tier-price">Custom</div>
+          <span class="tier-price-label">Proposal based on venue scope & needs</span>
+        </div>
+        <a href="#contact" class="btn-primary">Let's Talk</a>
+      </div>
+    </div>
+    <div class="tier-visual">
+      <div class="tier-visual-inner reserve-visual"></div>
+      <div class="tier-visual-num">III</div>
+      <div class="tier-ghost">R</div>
+      <svg class="tier-deco-svg" width="180" height="220" viewBox="0 0 180 220" fill="none">
+        <rect x="1" y="1" width="178" height="218" stroke="rgba(201,169,122,0.8)" stroke-width="1"/>
+        <rect x="12" y="12" width="156" height="196" stroke="rgba(201,169,122,0.4)" stroke-width="1"/>
+        <rect x="40" y="50" width="100" height="120" stroke="rgba(201,169,122,0.4)" stroke-width="1" fill="none"/>
+        <rect x="55" y="65" width="70" height="90" stroke="rgba(201,169,122,0.25)" stroke-width="1" fill="none"/>
+        <line x1="90" y1="1" x2="90" y2="50" stroke="rgba(201,169,122,0.3)" stroke-width="1"/>
+        <line x1="90" y1="170" x2="90" y2="219" stroke="rgba(201,169,122,0.3)" stroke-width="1"/>
+        <line x1="1" y1="110" x2="40" y2="110" stroke="rgba(201,169,122,0.3)" stroke-width="1"/>
+        <line x1="140" y1="110" x2="179" y2="110" stroke="rgba(201,169,122,0.3)" stroke-width="1"/>
+        <circle cx="90" cy="110" r="8" stroke="rgba(201,169,122,0.5)" stroke-width="1" fill="none"/>
+        <circle cx="90" cy="110" r="3" fill="rgba(201,169,122,0.6)"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<div class="deco-divider reveal"><div class="deco-divider-line"></div><div class="deco-divider-mark">Add-Ons</div><div class="deco-divider-line"></div></div>
+
+<!-- ADD-ONS -->
+<section class="addons-section" style="padding-top: 100px;">
+  <div class="section-header reveal">
+    <div class="section-tag">À La Carte</div>
+    <h2 class="section-headline">Enhance any<br><em>engagement.</em></h2>
+  </div>
+  <p style="font-size:15px;line-height:1.8;color:var(--cream-dim);max-width:520px;margin-top:16px;" class="reveal">Available to any client regardless of tier. Add-ons can be bundled with a retainer at a discounted rate.</p>
+
+  <div class="addons-grid">
+
+    <!-- Velvet Sessions Licensing — featured spans 2 cols -->
+    <div class="addon-card featured-addon reveal">
+      <div>
+        <div class="addon-icon">◈</div>
+        <div class="addon-name">Velvet Sessions<br>Licensing</div>
+        <div class="addon-price" style="margin-top:12px;">From $1,500 / event</div>
+      </div>
+      <div>
+        <p class="addon-desc">Bring the Velvet Sessions concept to your venue. Sip More licenses the full experience — the format, the atmosphere, the curation — so your space becomes the room everyone's talking about. Available as a one-time activation or recurring series.</p>
+        <a href="#contact" class="btn-primary" style="display:inline-block;margin-top:20px;">Inquire</a>
+      </div>
+    </div>
+
+    <div class="addon-card reveal reveal-delay-1">
+      <div class="addon-icon">◇</div>
+      <div class="addon-name">Wine List Design</div>
+      <p class="addon-desc">Full wine list build from the ground up — categorization, selection, tasting notes, and formatting ready for print or digital.</p>
+      <div class="addon-price">Starting at $800</div>
+    </div>
+
+    <div class="addon-card reveal reveal-delay-2">
+      <div class="addon-icon">◉</div>
+      <div class="addon-name">Cellar & Inventory Audit</div>
+      <p class="addon-desc">A thorough assessment of your existing wine inventory with prioritized recommendations for what to keep, cut, and add.</p>
+      <div class="addon-price">Custom Pricing</div>
+    </div>
+
+    <div class="addon-card reveal reveal-delay-1">
+      <div class="addon-icon">◎</div>
+      <div class="addon-name">Pop-Up Experience</div>
+      <p class="addon-desc">A one-time branded Sip More event activation on-site. Full concept, curation, and execution — your space, our experience.</p>
+      <div class="addon-price">From $2,000</div>
+    </div>
+
+    <div class="addon-card reveal reveal-delay-2">
+      <div class="addon-icon">◈</div>
+      <div class="addon-name">Brand Collaboration</div>
+      <p class="addon-desc">Co-branded activations, social content creation, or product placement tied to Sip More events and audiences.</p>
+      <div class="addon-price">Custom Pricing</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="deco-divider reveal"><div class="deco-divider-line"></div><div class="deco-divider-mark">Philosophy</div><div class="deco-divider-line"></div></div>
+
+<!-- PRICING PHILOSOPHY -->
+<section class="philosophy-section">
+  <div class="philosophy-grid">
+    <div class="philosophy-left reveal">
+      <div class="section-tag">How We Price</div>
+      <h2 class="section-headline">Scope first.<br><em>Price second.</em></h2>
+      <p>Every venue is different. Rather than rigid packages, Sip More builds pricing around what your engagement actually requires — so you're never paying for things you don't need.</p>
+      <p>Starting rates are anchors, not ceilings. Final proposals are shaped by:</p>
+      <ul class="factor-list">
+        <li class="factor-item"><div class="factor-diamond"></div><span class="factor-text">Venue size & complexity</span></li>
+        <li class="factor-item"><div class="factor-diamond"></div><span class="factor-text">Volume of monthly programming</span></li>
+        <li class="factor-item"><div class="factor-diamond"></div><span class="factor-text">Number of staff to train</span></li>
+        <li class="factor-item"><div class="factor-diamond"></div><span class="factor-text">On-site time required</span></li>
+        <li class="factor-item"><div class="factor-diamond"></div><span class="factor-text">Engagement duration</span></li>
+        <li class="factor-item"><div class="factor-diamond"></div><span class="factor-text">Travel & logistics</span></li>
+      </ul>
+    </div>
+    <div class="philosophy-right reveal reveal-delay-1">
+      <div class="quote-block">
+        <div class="quote-mark">"</div>
+        <p class="quote-text">Every engagement starts with a complimentary discovery call. <em>No pitch</em> — just an honest conversation about what you're building and whether we're the right fit.</p>
+        <div class="quote-attr">— Mahlik Rich, Founder</div>
+      </div>
+      <div style="margin-top:3px;background:var(--black);padding:32px 56px;border-left:3px solid rgba(201,169,122,0.2);">
+        <div style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">Currently Accepting</div>
+        <p style="font-size:14px;line-height:1.7;color:var(--cream-dim);">New consulting clients in the New Orleans area and select markets beyond. Retainer spots are limited — reach out to hold yours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="page-eyebrow" style="justify-content:center;opacity:1;animation:none;margin-bottom:20px;">Book a Discovery Call</div>
+  <h2 class="cta-headline">
+    Let's build your<br>
+    <em>program.</em>
+  </h2>
+  <p class="cta-sub">Start with a complimentary discovery call. We'll talk through your venue, your guests, and what the right engagement looks like. No commitment required.</p>
+  <div class="cta-actions">
+    <a href="/cdn-cgi/l/email-protection#076f626b6b6847746e776a68756229706e6962" class="btn-primary">Book a Call</a>
+    <a href="/cdn-cgi/l/email-protection#bbd3ded7d7d4fbc8d2cbd6d4c9de95ccd2d5de" class="btn-outline">Send a Message</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-name">Sip <span>More</span></div>
+      <p class="footer-tagline">Wine and experiential hospitality, rooted in New Orleans culture.</p>
+      <div class="footer-social">
+        <a href="#">IG</a><a href="#">TK</a><a href="#">LI</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Services</div>
+      <ul class="footer-links">
+        <li><a href="#">Pour — Consultation</a></li>
+        <li><a href="#">Blend — Programming</a></li>
+        <li><a href="#">Reserve — Partnership</a></li>
+        <li><a href="#">Add-On Services</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Experiences</div>
+      <ul class="footer-links">
+        <li><a href="events.html">The Velvet Sessions</a></li>
+        <li><a href="events.html">Velvet Brunch</a></li>
+        <li><a href="events.html">Press Play</a></li>
+        <li><a href="events.html">Sip & Smile Golf Classic</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Connect</div>
+      <ul class="footer-links">
+        <li><a href="#">About Mahlik</a></li>
+        <li><a href="#">The Sip More Report</a></li>
+        <li><a href="#contact">Work With Us</a></li>
+        <li><a href="#">sipmore.wine</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 Sip More LLC. All rights reserved. New Orleans, LA.</div>
+    <div class="footer-domain">sipmore.wine</div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js">
+
+
+  (function() {
+    function initMenu() {
+      var btn = document.getElementById('hamburger');
+      var menu = document.getElementById('mobileMenu');
+      if (!btn || !menu) return;
+      var isOpen = false;
+      
+      btn.addEventListener('click', toggleMenu);
+      btn.addEventListener('touchend', toggleMenu);
+      menu.querySelectorAll('a').forEach(function(a) {
+        a.addEventListener('click', function() {
+          isOpen = false;
+          menu.style.display = 'none';
+          btn.classList.remove('open');
+          document.body.style.overflow = '';
+        });
+      });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initMenu);
+    } else {
+      initMenu();
+    }
+  })();
+
+</script>
+  });
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursor.style.left = mouseX + 'px'; cursor.style.top = mouseY + 'px';
+  });
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.12; ringY += (mouseY - ringY) * 0.12;
+    ring.style.left = ringX + 'px'; ring.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => 

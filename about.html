@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Sip More</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0D0D0D;
+    --deep: #1C1C1C;
+    --burgundy: #8B2635;
+    --burgundy-light: #A63040;
+    --gold: #C9A97A;
+    --gold-light: #DFC49A;
+    --cream: #F2EDE4;
+    --cream-dim: #C8C0B2;
+    --white: #FAFAF8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--cream);
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: auto;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; touch-action: none; z-index: 1; opacity: 0.35;
+  }
+
+  .cursor { position: fixed; width: 10px; height: 10px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); mix-blend-mode: screen; }
+  .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(201,169,122,0.5); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: width 0.3s, height 0.3s; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+    padding: 28px 60px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: linear-gradient(to bottom, rgba(13,13,13,0.97) 0%, transparent 100%);
+    border-bottom: 1px solid rgba(201,169,122,0.1);
+  }
+  .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; letter-spacing: 0.18em; color: var(--cream); text-decoration: none; text-transform: uppercase; }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 42px; list-style: none; align-items: center; }
+  .nav-links a { font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream-dim); text-decoration: none; transition: color 0.3s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+  .nav-cta { color: var(--black) !important; background: var(--gold); padding: 12px 26px; transition: background 0.3s !important; }
+  .nav-cta:hover { background: var(--gold-light) !important; }
+
+  /* =====================
+     HERO — full bleed split
+  ===================== */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Photo side */
+  .hero-photo {
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    filter: brightness(0.75) contrast(1.05);
+    transition: transform 0.8s ease;
+    display: block;
+  }
+  .hero-photo:hover img { transform: scale(1.03); }
+
+  /* Photo overlays */
+  .photo-gradient {
+    position: absolute; inset: 0;
+    background: linear-gradient(to right, transparent 60%, var(--black) 100%),
+                linear-gradient(to top, rgba(13,13,13,0.5) 0%, transparent 40%);
+    z-index: 1;
+  }
+
+  /* Credential badge floating on photo */
+  .photo-badge {
+    position: absolute;
+    bottom: 60px; left: 44px;
+    z-index: 3;
+    opacity: 0; animation: fadeUp 0.9s ease 1s forwards;
+  }
+  .badge-inner {
+    background: var(--gold);
+    padding: 20px 28px;
+    display: inline-block;
+  }
+  .badge-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8px; font-weight: 700;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: rgba(13,13,13,0.7); margin-bottom: 4px;
+  }
+  .badge-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 600;
+    color: var(--black); line-height: 1.1;
+  }
+
+  /* Art deco frame on photo */
+  .photo-frame {
+    position: absolute;
+    top: 120px; left: 30px; right: 30px; bottom: 30px;
+    border: 1px solid rgba(201,169,122,0.15);
+    z-index: 2; pointer-events: none;
+  }
+  .photo-frame::before {
+    content: '';
+    position: absolute;
+    top: 10px; left: 10px; right: 10px; bottom: 10px;
+    border: 1px solid rgba(201,169,122,0.07);
+  }
+
+  /* Text side */
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 140px 72px 100px 64px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .page-eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 28px;
+    display: flex; align-items: center; gap: 14px;
+    opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+  .page-eyebrow::before { content: ''; display: block; width: 30px; height: 1px; background: var(--gold); }
+
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(56px, 6vw, 88px);
+    font-weight: 300; line-height: 0.9;
+    color: var(--white); margin-bottom: 8px;
+    opacity: 0; animation: fadeUp 0.9s ease 0.35s forwards;
+  }
+  .hero-name em { font-style: italic; color: var(--gold); }
+
+  .hero-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--cream-dim); margin-bottom: 44px;
+    padding-bottom: 44px;
+    border-bottom: 1px solid rgba(201,169,122,0.15);
+    opacity: 0; animation: fadeUp 0.9s ease 0.45s forwards;
+  }
+
+  .hero-intro {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(20px, 2vw, 26px);
+    font-weight: 300; font-style: italic;
+    line-height: 1.6; color: var(--cream);
+    margin-bottom: 28px;
+    opacity: 0; animation: fadeUp 0.9s ease 0.6s forwards;
+  }
+
+  .hero-body {
+    font-size: 14px; line-height: 1.9;
+    color: var(--cream-dim);
+    opacity: 0; animation: fadeUp 0.9s ease 0.75s forwards;
+  }
+
+  /* Scroll indicator */
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px; left: 72px;
+    display: flex; align-items: center; gap: 12px;
+    opacity: 0; animation: fadeIn 1s ease 1.2s forwards;
+  }
+  .scroll-line { width: 1px; height: 48px; background: linear-gradient(to bottom, transparent, var(--gold)); animation: scrollPulse 2s ease infinite; }
+  .scroll-label { font-family: 'Montserrat', sans-serif; font-size: 8px; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); writing-mode: vertical-lr; }
+
+  /* =====================
+     MISSION SECTION
+  ===================== */
+  .mission-section {
+    padding: 140px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .mission-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(201,169,122,0.2), transparent);
+  }
+
+  /* Large background text */
+  .mission-bg-text {
+    position: absolute;
+    left: -20px; top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 280px; font-weight: 700;
+    color: rgba(139,38,53,0.04);
+    line-height: 1; pointer-events: none; user-select: none;
+    white-space: nowrap;
+  }
+
+  .mission-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 120px;
+    align-items: start;
+    position: relative; z-index: 2;
+  }
+
+  .section-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 20px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .section-tag::before { content: ''; display: block; width: 28px; height: 1px; background: var(--gold); }
+
+  .section-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(40px, 4vw, 60px);
+    font-weight: 300; line-height: 1.0; color: var(--white);
+    margin-bottom: 32px;
+  }
+  .section-headline em { font-style: italic; color: var(--gold); }
+
+  .mission-left p {
+    font-size: 15px; line-height: 1.9;
+    color: var(--cream-dim); margin-bottom: 20px;
+  }
+
+  /* Mission pillars */
+  .mission-pillars {
+    display: flex; flex-direction: column; gap: 3px;
+    margin-top: 8px;
+  }
+  .pillar {
+    background: var(--deep);
+    padding: 28px 32px;
+    display: flex; align-items: flex-start; gap: 20px;
+    position: relative; overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  .pillar:hover { transform: translateX(6px); }
+  .pillar::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px; background: var(--gold);
+    transform: scaleY(0); transition: transform 0.4s ease;
+    transform-origin: bottom;
+  }
+  .pillar:hover::before { transform: scaleY(1); }
+  .pillar-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px; font-weight: 300;
+    color: rgba(201,169,122,0.2); line-height: 1;
+    flex-shrink: 0; width: 36px;
+  }
+  .pillar-content {}
+  .pillar-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 8px;
+  }
+  .pillar-text {
+    font-size: 13px; line-height: 1.75; color: var(--cream-dim);
+  }
+
+  /* =====================
+     BACKGROUND / CREDENTIALS
+  ===================== */
+  .background-section {
+    padding: 0 60px 140px;
+    position: relative;
+  }
+
+  .background-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 3px;
+    margin-top: 64px;
+  }
+
+  /* Timeline */
+  .timeline {
+    background: var(--deep);
+    padding: 60px 56px;
+  }
+  .timeline-item {
+    display: flex; gap: 28px;
+    padding-bottom: 40px;
+    position: relative;
+  }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 19px; top: 28px; bottom: 0;
+    width: 1px;
+    background: rgba(201,169,122,0.1);
+  }
+  .timeline-item:last-child::before { display: none; }
+
+  .timeline-dot {
+    width: 10px; height: 10px;
+    background: var(--gold); flex-shrink: 0;
+    transform: rotate(45deg); margin-top: 6px;
+    position: relative; z-index: 1;
+  }
+  .timeline-dot.dim { background: rgba(201,169,122,0.3); }
+
+  .timeline-year {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 6px;
+  }
+  .timeline-dot.dim ~ .timeline-body .timeline-year { color: var(--cream-dim); }
+
+  .timeline-role {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 400;
+    color: var(--white); line-height: 1.1; margin-bottom: 4px;
+  }
+  .timeline-place {
+    font-size: 12px; color: var(--cream-dim); letter-spacing: 0.05em;
+  }
+
+  /* Credentials panel */
+  .credentials-panel {
+    display: flex; flex-direction: column; gap: 3px;
+  }
+
+  .cred-card {
+    background: var(--deep);
+    padding: 40px 44px;
+    position: relative; overflow: hidden;
+    flex: 1;
+    transition: transform 0.3s ease;
+  }
+  .cred-card:hover { transform: translateY(-3px); }
+  .cred-card::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px; background: var(--gold);
+    transform: scaleX(0); transition: transform 0.4s ease;
+    transform-origin: left;
+  }
+  .cred-card:hover::after { transform: scaleX(1); }
+
+  .cred-icon {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px; font-weight: 300;
+    color: rgba(201,169,122,0.15); line-height: 1;
+    margin-bottom: 16px;
+  }
+  .cred-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px; font-weight: 400;
+    color: var(--white); line-height: 1.1; margin-bottom: 8px;
+  }
+  .cred-sub {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 12px;
+  }
+  .cred-desc {
+    font-size: 13px; line-height: 1.75; color: var(--cream-dim);
+  }
+
+  /* Featured cred */
+  .cred-card.featured {
+    background: var(--burgundy);
+    flex: 0 0 auto;
+  }
+  .cred-card.featured .cred-icon { color: rgba(242,237,228,0.15); }
+  .cred-card.featured .cred-title { color: var(--white); }
+  .cred-card.featured .cred-sub { color: rgba(242,237,228,0.7); }
+  .cred-card.featured .cred-desc { color: rgba(242,237,228,0.8); }
+
+  /* =====================
+     WINE & CULTURE SECTION
+  ===================== */
+  .culture-section {
+    padding: 140px 60px;
+    background: var(--deep);
+    position: relative; overflow: hidden;
+  }
+  .culture-section::before {
+    content: '';
+    position: absolute; top: 40px; left: 40px;
+    width: 120px; height: 120px;
+    border-top: 1px solid rgba(201,169,122,0.15);
+    border-left: 1px solid rgba(201,169,122,0.15);
+  }
+  .culture-section::after {
+    content: '';
+    position: absolute; bottom: 40px; right: 40px;
+    width: 120px; height: 120px;
+    border-bottom: 1px solid rgba(201,169,122,0.15);
+    border-right: 1px solid rgba(201,169,122,0.15);
+  }
+
+  .culture-inner {
+    max-width: 800px; margin: 0 auto;
+    text-align: center; position: relative; z-index: 2;
+  }
+
+  .culture-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 3.5vw, 48px);
+    font-weight: 300; font-style: italic;
+    line-height: 1.4; color: var(--white);
+    margin-bottom: 48px;
+  }
+  .culture-quote em { color: var(--gold); font-style: normal; }
+
+  .culture-body-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px; text-align: left;
+    margin-top: 60px;
+  }
+  .culture-body-item {
+    background: var(--black);
+    padding: 40px 36px;
+  }
+  .culture-body-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .culture-body-label::before { content: '◆'; font-size: 7px; }
+  .culture-body-text {
+    font-size: 14px; line-height: 1.85; color: var(--cream-dim);
+  }
+
+  /* =====================
+     STAT BAND
+  ===================== */
+  .stat-band {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    background: var(--black);
+  }
+  .stat-item {
+    padding: 56px 40px;
+    border-right: 1px solid rgba(201,169,122,0.08);
+    text-align: center;
+    position: relative; overflow: hidden;
+    transition: background 0.3s ease;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-item:hover { background: var(--deep); }
+  .stat-item::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px; background: var(--gold);
+    transform: scaleX(0); transition: transform 0.4s ease;
+    transform-origin: center;
+  }
+  .stat-item:hover::before { transform: scaleX(1); }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 64px; font-weight: 300;
+    color: var(--white); line-height: 1; margin-bottom: 10px;
+  }
+  .stat-num span { color: var(--gold); font-size: 40px; }
+  .stat-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 500;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--cream-dim);
+  }
+
+  /* =====================
+     CTA
+  ===================== */
+  .cta-section {
+    padding: 160px 60px;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 700px; height: 500px;
+    background: radial-gradient(ellipse, rgba(139,38,53,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(48px, 5.5vw, 80px);
+    font-weight: 300; line-height: 1.0;
+    color: var(--white); margin-bottom: 24px;
+  }
+  .cta-headline em { font-style: italic; color: var(--gold); }
+  .cta-sub {
+    font-size: 15px; line-height: 1.8; color: var(--cream-dim);
+    max-width: 460px; margin: 0 auto 52px;
+  }
+  .cta-actions { display: flex; gap: 20px; justify-content: center; align-items: center; }
+
+  .btn-primary {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--black); background: var(--gold);
+    padding: 16px 36px; text-decoration: none;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-ghost {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 500;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--cream-dim); text-decoration: none;
+    display: flex; align-items: center; gap: 8px;
+    transition: color 0.3s, gap 0.3s;
+  }
+  .btn-ghost:hover { color: var(--gold); gap: 14px; }
+  .btn-ghost::after { content: '→'; font-size: 13px; }
+
+  /* DECO DIVIDER */
+  .deco-divider { display: flex; align-items: center; justify-content: center; gap: 20px; padding: 0 60px; }
+  .deco-divider-line { flex: 1; height: 1px; background: rgba(201,169,122,0.15); }
+  .deco-divider-mark { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: rgba(201,169,122,0.35); display: flex; align-items: center; gap: 10px; }
+  .deco-divider-mark::before, .deco-divider-mark::after { content: '◆'; font-size: 7px; color: rgba(201,169,122,0.25); }
+
+  /* FOOTER */
+  footer { background: #080808; padding: 80px 60px 40px; border-top: 1px solid rgba(201,169,122,0.15); }
+  .footer-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 60px; }
+  .footer-brand-name { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 500; letter-spacing: 0.1em; color: var(--white); margin-bottom: 16px; }
+  .footer-brand-name span { color: var(--gold); }
+  .footer-tagline { font-size: 13px; line-height: 1.7; color: var(--cream-dim); margin-bottom: 28px; }
+  .footer-social { display: flex; gap: 16px; }
+  .footer-social a { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-dim); text-decoration: none; border: 1px solid rgba(201,169,122,0.2); padding: 8px 14px; transition: border-color 0.3s, color 0.3s; }
+  .footer-social a:hover { border-color: var(--gold); color: var(--gold); }
+  .footer-col-title { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .footer-links a { font-size: 13px; color: var(--cream-dim); text-decoration: none; transition: color 0.3s; letter-spacing: 0.04em; }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding-top: 32px; display: flex; justify-content: space-between; align-items: center; }
+  .footer-copy { font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 0.15em; color: rgba(201,169,122,0.3); }
+  .footer-domain { font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 0.15em; color: rgba(201,169,122,0.5); }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s ease, transform 0.9s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.15s; }
+  .reveal-delay-2 { transition-delay: 0.3s; }
+  .reveal-delay-3 { transition-delay: 0.45s; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes scrollPulse { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+  @media (max-width: 1100px) {
+    nav { padding: 24px 32px; }
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-photo { height: 70vh; }
+    .hero-content { padding: 60px 32px 80px; }
+    .mission-section, .background-section, .culture-section, .cta-section { padding-left: 32px; padding-right: 32px; }
+    .mission-grid { grid-template-columns: 1fr; gap: 60px; }
+    .background-grid { grid-template-columns: 1fr; }
+    .culture-body-grid { grid-template-columns: 1fr; }
+    .stat-band { grid-template-columns: 1fr 1fr; }
+    .stat-item { border-right: none; border-bottom: 1px solid rgba(201,169,122,0.08); }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+  }
+
+  
+
+  /* === NAV REBUILD === */
+  #sipmoreNav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9990;
+    padding: 22px 60px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(13,13,13,0.97);
+    border-bottom: 1px solid rgba(201,169,122,0.1);
+  }
+  #sipmoreNav .nav-logo {
+    font-family: 'Cormorant Garamond', serif; font-size: 22px;
+    font-weight: 600; letter-spacing: 0.18em;
+    color: #F2EDE4; text-decoration: none; text-transform: uppercase;
+    z-index: 9992; position: relative;
+  }
+  #sipmoreNav .nav-logo span { color: #C9A97A; }
+  #sipmoreNav .nav-links {
+    display: flex; gap: 42px; list-style: none; align-items: center;
+  }
+  #sipmoreNav .nav-links a {
+    font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: #C8C0B2; text-decoration: none; transition: color 0.3s;
+  }
+  #sipmoreNav .nav-links a:hover { color: #C9A97A; }
+  #sipmoreNav .nav-links a.active { color: #C9A97A; }
+  #sipmoreNav .nav-cta {
+    color: #0D0D0D !important; background: #C9A97A;
+    padding: 12px 26px;
+  }
+  #sipmoreNav .nav-cta:hover { background: #DFC49A !important; }
+
+  /* Hamburger */
+  #navToggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    width: 44px; height: 44px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 9992;
+    position: relative;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    touch-action: manipulation;
+  }
+  #navToggle .bar {
+    display: block;
+    width: 24px; height: 1.5px;
+    background: #C9A97A;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform-origin: center;
+  }
+  #navToggle.is-open .bar:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  #navToggle.is-open .bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  #navToggle.is-open .bar:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  /* Mobile menu */
+  #mobileNav {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: #0D0D0D;
+    z-index: 9991;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+  #mobileNav a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 44px; font-weight: 300;
+    color: #F2EDE4; text-decoration: none;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(201,169,122,0.12);
+    width: 100%; text-align: center;
+    transition: color 0.3s;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+  }
+  #mobileNav a.active { color: #C9A97A; }
+  #mobileNav a:last-child {
+    border: none; margin-top: 24px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: #0D0D0D; background: #C9A97A;
+    padding: 16px 40px; width: auto;
+  }
+
+  @media (max-width: 768px) {
+    #sipmoreNav { padding: 20px 24px; }
+    #sipmoreNav .nav-links { display: none; }
+    #navToggle { display: flex; }
+  }
+
+
+  /* === BOTTOM NAV (mobile only) === */
+  #bottomNav {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 9990;
+    background: #0D0D0D;
+    border-top: 1px solid rgba(201,169,122,0.15);
+    padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+  }
+  #bottomNav ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0; padding: 0;
+  }
+  #bottomNav li a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+    color: rgba(200,192,178,0.45);
+    transition: color 0.2s ease;
+    padding: 4px 12px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  #bottomNav li a.active { color: #C9A97A; }
+  #bottomNav li a:hover { color: #C9A97A; }
+  #bottomNav li a svg {
+    width: 22px; height: 22px;
+    stroke: currentColor;
+  }
+  #bottomNav li a span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 768px) {
+    #bottomNav { display: block; }
+    #sipmoreNav { display: none !important; }
+    #bottomNav { display: block !important; }
+    /* Add bottom padding to body so content isn't hidden behind nav */
+    body { padding-bottom: 72px; }
+  }
+
+</style>
+</head>
+<body>
+<nav id="sipmoreNav">
+  <a href="index.html" class="nav-logo">Sip <span>More</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="contact.html" class="nav-cta">Work With Us</a></li>
+  </ul>
+  <button id="navToggle" type="button" aria-label="Open menu">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </button>
+</nav>
+<div id="mobileNav">
+  <a href="index.html">Home</a>
+  <a href="events.html">Events</a>
+  <a href="services.html">Services</a>
+  <a href="about.html" class="active">About</a>
+  <a href="contact.html">Work With Us</a>
+</div>
+
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+
+
+
+
+<!-- HERO -->
+<section class="hero">
+
+  <!-- Photo -->
+  <div class="hero-photo">
+    <img src="images/mahlik-rich.jpg" alt="Mahlik Rich — Founder, Sip More LLC">
+    <div class="photo-gradient"></div>
+    <div class="photo-frame"></div>
+    <div class="photo-badge">
+      <div class="badge-inner">
+        <div class="badge-label">Certified</div>
+        <div class="badge-value">WSET<br>Level 3</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="hero-content">
+    <div class="page-eyebrow">Sip More · The Director</div>
+    <h1 class="hero-name">
+      Mahlik<br><em>Rich</em>
+    </h1>
+    <div class="hero-title">Founder & Beverage Director · Sip More LLC</div>
+    <p class="hero-intro">"Wine doesn't belong behind glass. It belongs in the room — in the music, the conversation, the moment."</p>
+    <p class="hero-body">Mahlik Rich is a WSET Level 3 certified beverage director, wine curator, and the founder of Sip More LLC. With over six years embedded in New Orleans hospitality, he's built a career at the intersection of wine culture and lived experience — working across Four Seasons, nightlife, and the city's most dynamic food and beverage spaces.</p>
+    <div class="scroll-hint">
+      <div class="scroll-line"></div>
+      <span class="scroll-label">Scroll</span>
+    </div>
+  </div>
+
+</section>
+
+<!-- STAT BAND -->
+<div class="stat-band">
+  <div class="stat-item reveal">
+    <div class="stat-num">6<span>+</span></div>
+    <div class="stat-label">Years in New Orleans Hospitality</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-1">
+    <div class="stat-num">30<span>+</span></div>
+    <div class="stat-label">Events Curated</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-2">
+    <div class="stat-num">L<span>3</span></div>
+    <div class="stat-label">WSET Certified in Wines</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-3">
+    <div class="stat-num">1<span>city</span></div>
+    <div class="stat-label">New Orleans — For Now</div>
+  </div>
+</div>
+
+<!-- MISSION -->
+<section class="mission-section">
+  <div class="mission-bg-text">Mission</div>
+  <div class="mission-grid">
+    <div class="mission-left reveal">
+      <div class="section-tag">The Mission</div>
+      <h2 class="section-headline">Wine lives<br>where <em>culture</em> does.</h2>
+      <p>Sip More was built on a simple but radical idea: that wine education and wine culture shouldn't feel exclusive. That the same way a great playlist transforms a room, the right bottle — introduced the right way — can shift how people experience a night entirely.</p>
+      <p>We build beverage programs for restaurants and hospitality groups who believe that too. Programs that feel like they belong in the room, not just on the menu.</p>
+    </div>
+    <div class="mission-right reveal reveal-delay-1">
+      <div class="mission-pillars">
+        <div class="pillar">
+          <div class="pillar-num">01</div>
+          <div class="pillar-content">
+            <div class="pillar-title">Culture First</div>
+            <p class="pillar-text">Every program, every event, every pairing is designed to meet people where they are — not where wine culture traditionally expects them to be.</p>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">02</div>
+          <div class="pillar-content">
+            <div class="pillar-title">Expertise Without Ego</div>
+            <p class="pillar-text">WSET Level 3 credentials and six years in the industry inform everything we do. But we believe the best wine education feels like conversation, not a lecture.</p>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">03</div>
+          <div class="pillar-content">
+            <div class="pillar-title">Intentional Experience</div>
+            <p class="pillar-text">From the music in the room to the pour in the glass, every detail is considered. Hospitality at its highest is the art of making people feel something.</p>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">04</div>
+          <div class="pillar-content">
+            <div class="pillar-title">Community Impact</div>
+            <p class="pillar-text">Whether it's scholarships at the Golf Classic or creating space for new wine drinkers at Velvet Sessions, Sip More is always building something bigger than the bottle.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="deco-divider reveal"><div class="deco-divider-line"></div><div class="deco-divider-mark">Background</div><div class="deco-divider-line"></div></div>
+
+<!-- BACKGROUND & CREDENTIALS -->
+<section class="background-section" style="padding-top: 100px;">
+  <div class="section-tag reveal">
+    <span>Experience & Credentials</span>
+  </div>
+  <h2 class="section-headline reveal" style="margin-bottom: 0;">Built in hospitality.<br><em>Driven by culture.</em></h2>
+
+  <div class="background-grid">
+
+    <!-- Timeline -->
+    <div class="timeline reveal">
+      <div style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:40px;">Career Timeline</div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-body">
+          <div class="timeline-year">2022 — Present</div>
+          <div class="timeline-role">Founder & Beverage Director</div>
+          <div class="timeline-place">Sip More LLC · New Orleans, LA</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-body">
+          <div class="timeline-year">2025</div>
+          <div class="timeline-role">WSET Level 3 in Wines</div>
+          <div class="timeline-place">Wine & Spirit Education Trust · Passed with Merit</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot dim"></div>
+        <div class="timeline-body">
+          <div class="timeline-year">Hospitality</div>
+          <div class="timeline-role">Server · Chandelier Bar</div>
+          <div class="timeline-place">Four Seasons Hotel · New Orleans, LA</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot dim"></div>
+        <div class="timeline-body">
+          <div class="timeline-year">Retail Leadership</div>
+          <div class="timeline-role">Store Lead & Brand Manager</div>
+          <div class="timeline-place">Converse · Atlantic City, NJ</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot dim"></div>
+        <div class="timeline-body">
+          <div class="timeline-year">Management</div>
+          <div class="timeline-role">Store Manager</div>
+          <div class="timeline-place">AT&T · Mays Landing, NJ</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot dim"></div>
+        <div class="timeline-body">
+          <div class="timeline-year">Leadership</div>
+          <div class="timeline-role">Customer Service Supervisor</div>
+          <div class="timeline-place">Wawa · Wildwood, NJ</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Credentials -->
+    <div class="credentials-panel reveal reveal-delay-1">
+
+      <div class="cred-card featured">
+        <div class="cred-icon">◈</div>
+        <div class="cred-title">WSET Level 3<br>in Wines</div>
+        <div class="cred-sub">Wine & Spirit Education Trust · 2025</div>
+        <p class="cred-desc">One of the wine industry's most recognized intermediate qualifications, covering viticulture, winemaking, and the systematic approach to tasting wines from across the globe. Passed August 2025.</p>
+      </div>
+
+      <div class="cred-card">
+        <div class="cred-icon">◇</div>
+        <div class="cred-title">6+ Years in<br>New Orleans Hospitality</div>
+        <div class="cred-sub">Events · Nightlife · Fine Dining</div>
+        <p class="cred-desc">Deep roots across the city's hospitality ecosystem — from luxury hotel service at the Four Seasons Chandelier Bar to curating 30+ cultural events and activations citywide.</p>
+      </div>
+
+      <div class="cred-card">
+        <div class="cred-icon">◉</div>
+        <div class="cred-title">Sip More LLC</div>
+        <div class="cred-sub">Founded 2022 · New Orleans, LA</div>
+        <p class="cred-desc">Built Sip More from the ground up as a wine and experiential hospitality brand — developing the Velvet Sessions, Velvet Brunch, Press Play, and the Sip & Smile Golf Classic.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="deco-divider reveal"><div class="deco-divider-line"></div><div class="deco-divider-mark">Culture</div><div class="deco-divider-line"></div></div>
+
+<!-- WINE & CULTURE -->
+<section class="culture-section">
+  <div class="culture-inner reveal">
+    <div class="section-tag" style="justify-content:center;"><span>Wine & Culture</span></div>
+    <p class="culture-quote">
+      "I got into wine the same way most people get into music — through <em>feeling</em>, not theory. The theory came later. The feeling never left."
+    </p>
+    <p style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);">— Mahlik Rich</p>
+  </div>
+
+  <div class="culture-body-grid reveal" style="margin-top:80px;">
+    <div class="culture-body-item">
+      <div class="culture-body-label">On Music & Wine</div>
+      <p class="culture-body-text">The connection between music and wine has always been at the center of how Sip More operates. Both are about atmosphere, about timing, about creating a moment that people feel before they can describe it. The Velvet Sessions didn't start as a concept — it started as a feeling Mahlik wanted to recreate every time he walked into a room.</p>
+    </div>
+    <div class="culture-body-item">
+      <div class="culture-body-label">On Accessibility</div>
+      <p class="culture-body-text">Wine has a gatekeeping problem. Too many tasting notes read like vocabulary tests. Too many sommeliers perform expertise rather than share it. Mahlik's approach has always been the opposite — meet the person where they are, find the wine that makes sense to them, and let the curiosity follow. That's how you build a wine drinker for life, not just for the evening.</p>
+    </div>
+    <div class="culture-body-item">
+      <div class="culture-body-label">On New Orleans</div>
+      <p class="culture-body-text">New Orleans is one of the few cities in America where food, music, and culture are genuinely inseparable. It made Mahlik a better hospitality professional and a better curator — because the city doesn't let you cut corners on experience. Every room you walk into has a standard for how things should feel. Sip More was built with that standard in mind.</p>
+    </div>
+    <div class="culture-body-item">
+      <div class="culture-body-label">On What's Next</div>
+      <p class="culture-body-text">Sip More is New Orleans for now — and that's intentional. The roots have to be deep before the branches can spread. But the vision has always been bigger: a brand that brings culturally grounded wine experiences to cities where that intersection doesn't yet exist. The program is being built to travel.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="page-eyebrow" style="justify-content:center;opacity:1;animation:none;margin-bottom:20px;">Work With Mahlik</div>
+  <h2 class="cta-headline">
+    Ready to build<br>
+    <em>something real?</em>
+  </h2>
+  <p class="cta-sub">Whether you're a restaurant group, hotel, or brand looking for a beverage partner who brings culture with the expertise — let's talk.</p>
+  <div class="cta-actions">
+    <a href="services.html" class="btn-primary">View Services</a>
+    <a href="/cdn-cgi/l/email-protection#7a121f1616153a09130a1715081f540d13141f" class="btn-ghost">Get in Touch</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-name">Sip <span>More</span></div>
+      <p class="footer-tagline">Wine and experiential hospitality, rooted in New Orleans culture.</p>
+      <div class="footer-social">
+        <a href="#">IG</a><a href="#">TK</a><a href="#">LI</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Services</div>
+      <ul class="footer-links">
+        <li><a href="services.html">Pour — Consultation</a></li>
+        <li><a href="services.html">Blend — Programming</a></li>
+        <li><a href="services.html">Reserve — Partnership</a></li>
+        <li><a href="services.html">Add-On Services</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Experiences</div>
+      <ul class="footer-links">
+        <li><a href="events.html">The Velvet Sessions</a></li>
+        <li><a href="events.html">Velvet Brunch</a></li>
+        <li><a href="events.html">Press Play</a></li>
+        <li><a href="events.html">Sip & Smile Golf Classic</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Connect</div>
+      <ul class="footer-links">
+        <li><a href="about.html">About Mahlik Rich</a></li>
+        <li><a href="index.html#press">The Sip More Report</a></li>
+        <li><a href="services.html#contact">Work With Us</a></li>
+        <li><a href="#">sipmore.wine</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 Sip More LLC. All rights reserved. New Orleans, LA.</div>
+    <div class="footer-domain">sipmore.wine</div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js">
+
+
+  (function() {
+    function initMenu() {
+      var btn = document.getElementById('hamburger');
+      var menu = document.getElementById('mobileMenu');
+      if (!btn || !menu) return;
+      var isOpen = false;
+      
+      btn.addEventListener('click', toggleMenu);
+      btn.addEventListener('touchend', toggleMenu);
+      menu.querySelectorAll('a').forEach(function(a) {
+        a.addEventListener('click', function() {
+          isOpen = false;
+          menu.style.display = 'none';
+          btn.classList.remove('open');
+          document.body.style.overflow = '';
+        });
+      });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initMenu);
+    } else {
+      initMenu();
+    }
+  })();
+
+</script>
+  });
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursor.style.left = mouseX + 'px'; cursor.style.top = mouseY + 'px';
+  });
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.12; ringY += (mouseY - ringY) * 0.12;
+    ring.style.left = ringX + 'px'; ring.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isInte

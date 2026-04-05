@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sip More — Wine. Culture. Experience.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0D0D0D;
+    --deep: #1C1C1C;
+    --burgundy: #8B2635;
+    --burgundy-light: #A63040;
+    --gold: #C9A97A;
+    --gold-light: #DFC49A;
+    --cream: #F2EDE4;
+    --cream-dim: #C8C0B2;
+    --white: #FAFAF8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--cream);
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: auto;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 10px; height: 10px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, background 0.3s ease;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid rgba(201,169,122,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.18s ease, width 0.3s ease, height 0.3s ease;
+  }
+  body:has(a:hover) .cursor, body:has(button:hover) .cursor { width: 18px; height: 18px; }
+  body:has(a:hover) .cursor-ring, body:has(button:hover) .cursor-ring { width: 56px; height: 56px; border-color: var(--gold); }
+
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.35;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 500;
+    padding: 28px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(13,13,13,0.95) 0%, transparent 100%);
+    transition: background 0.4s ease;
+  }
+  nav.scrolled { background: rgba(13,13,13,0.97); border-bottom: 1px solid rgba(201,169,122,0.15); }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: var(--cream);
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .nav-logo span { color: var(--gold); }
+
+  .nav-links {
+    display: flex;
+    gap: 42px;
+    list-style: none;
+    align-items: center;
+  }
+  .nav-links a {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--gold);
+    padding: 12px 26px;
+    text-decoration: none;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  .nav-cta:hover { background: var(--gold-light); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 140px 60px 100px 60px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.3s forwards;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .hero-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(62px, 7vw, 100px);
+    font-weight: 300;
+    line-height: 0.92;
+    color: var(--white);
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.5s forwards;
+  }
+  .hero-headline em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-headline .line2 {
+    display: block;
+    padding-left: 60px;
+  }
+
+  .hero-sub {
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--cream-dim);
+    max-width: 420px;
+    margin: 36px 0 52px;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.7s forwards;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.9s forwards;
+  }
+
+  .btn-primary {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--gold);
+    padding: 18px 40px;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.2s ease;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  .btn-ghost {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--cream);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: color 0.3s ease, gap 0.3s ease;
+  }
+  .btn-ghost:hover { color: var(--gold); gap: 16px; }
+  .btn-ghost::after {
+    content: '→';
+    font-size: 14px;
+  }
+
+  /* Hero right — decorative */
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-right-inner {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #1a0a0d 0%, #0d0d0d 60%);
+  }
+
+  /* Art deco geometric decoration */
+  .deco-frame {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 340px;
+    height: 500px;
+    opacity: 0;
+    animation: fadeIn 1.4s ease 1s forwards;
+  }
+  .deco-frame svg { width: 100%; height: 100%; }
+
+  .hero-logo-mark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 180px;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.2s forwards;
+    filter: drop-shadow(0 0 40px rgba(139,38,53,0.4));
+  }
+
+  /* Vertical text */
+  .hero-vertical-text {
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(201,169,122,0.4);
+    white-space: nowrap;
+  }
+
+  /* Scroll indicator */
+  .scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 60px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.5s forwards;
+  }
+  .scroll-line {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, transparent, var(--gold));
+    animation: scrollPulse 2s ease infinite;
+  }
+  .scroll-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    writing-mode: vertical-lr;
+  }
+
+  /* Art deco border lines on hero */
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity: 0.4;
+  }
+
+  /* MARQUEE STRIP */
+  .marquee-strip {
+    background: var(--burgundy);
+    padding: 16px 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .marquee-track {
+    display: flex;
+    gap: 0;
+    animation: marqueeScroll 22s linear infinite;
+    width: max-content;
+  }
+  .marquee-item {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-weight: 500;
+    font-style: italic;
+    letter-spacing: 0.05em;
+    color: rgba(242,237,228,0.9);
+    padding: 0 48px;
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    white-space: nowrap;
+  }
+  .marquee-item::after {
+    content: '◆';
+    font-size: 8px;
+    color: rgba(242,237,228,0.5);
+  }
+
+  /* PHILOSOPHY SECTION */
+  .philosophy {
+    padding: 140px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: center;
+    position: relative;
+  }
+  .philosophy::before {
+    content: '';
+    position: absolute;
+    left: 60px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(201,169,122,0.2), transparent);
+  }
+
+  .philosophy-left {
+    position: relative;
+  }
+  .section-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .section-tag::before {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .section-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(42px, 4.5vw, 68px);
+    font-weight: 300;
+    line-height: 1.0;
+    color: var(--white);
+    margin-bottom: 32px;
+  }
+  .section-headline em { font-style: italic; color: var(--gold); }
+
+  .philosophy-body {
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--cream-dim);
+    margin-bottom: 20px;
+  }
+
+  .philosophy-right {
+    position: relative;
+  }
+
+  /* Large decorative number / quote */
+  .deco-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 200px;
+    font-weight: 700;
+    color: rgba(139,38,53,0.08);
+    line-height: 1;
+    position: absolute;
+    top: -40px;
+    right: -20px;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    position: relative;
+    z-index: 2;
+  }
+  .stat-card {
+    background: var(--deep);
+    padding: 40px 32px;
+    border-top: 2px solid transparent;
+    transition: border-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+    transform-origin: left;
+  }
+  .stat-card:hover::before { transform: scaleX(1); }
+  .stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px;
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .stat-number span { color: var(--gold); }
+  .stat-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+  }
+
+  /* SERVICES SECTION */
+  .services {
+    padding: 140px 60px;
+    background: var(--deep);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Art deco corner ornaments */
+  .services::before {
+    content: '';
+    position: absolute;
+    top: 40px; left: 40px;
+    width: 80px; height: 80px;
+    border-top: 1px solid rgba(201,169,122,0.3);
+    border-left: 1px solid rgba(201,169,122,0.3);
+  }
+  .services::after {
+    content: '';
+    position: absolute;
+    bottom: 40px; right: 40px;
+    width: 80px; height: 80px;
+    border-bottom: 1px solid rgba(201,169,122,0.3);
+    border-right: 1px solid rgba(201,169,122,0.3);
+  }
+
+  .services-header {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+  .services-header .section-tag {
+    justify-content: center;
+  }
+  .services-header .section-tag::before { display: none; }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .service-card {
+    background: var(--black);
+    padding: 56px 44px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s ease;
+    cursor: pointer;
+  }
+  .service-card:hover { transform: translateY(-6px); }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transition: transform 0.5s ease;
+    transform-origin: left;
+  }
+  .service-card:hover::before { transform: scaleX(1); }
+
+  .service-tier {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--burgundy-light);
+    margin-bottom: 24px;
+  }
+  .service-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 300;
+    line-height: 1;
+    color: var(--white);
+    margin-bottom: 20px;
+  }
+  .service-type {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 28px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid rgba(201,169,122,0.2);
+  }
+  .service-desc {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--cream-dim);
+    margin-bottom: 32px;
+  }
+  .service-features {
+    list-style: none;
+    margin-bottom: 44px;
+  }
+  .service-features li {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: var(--cream-dim);
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .service-features li::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+  .service-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--white);
+  }
+  .service-price span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--cream-dim);
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  /* Featured card */
+  .service-card.featured {
+    background: var(--burgundy);
+  }
+  .service-card.featured .service-tier { color: rgba(242,237,228,0.7); }
+  .service-card.featured .service-type { color: var(--gold-light); border-color: rgba(201,169,122,0.3); }
+  .service-card.featured .service-desc { color: rgba(242,237,228,0.85); }
+  .service-card.featured .service-features li { border-color: rgba(255,255,255,0.12); color: rgba(242,237,228,0.85); }
+  .service-card.featured .service-price { color: var(--white); }
+  .service-card.featured .service-price span { color: rgba(242,237,228,0.7); }
+
+  .services-cta {
+    text-align: center;
+    margin-top: 72px;
+  }
+
+  /* EVENTS SECTION */
+  .events {
+    padding: 140px 60px;
+    position: relative;
+  }
+
+  .events-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 72px;
+  }
+
+  .events-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 2px;
+  }
+
+  .event-card {
+    background: var(--deep);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+  }
+  .event-card:hover { transform: translateY(-4px); }
+
+  .event-img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    filter: grayscale(30%) brightness(0.6);
+    transition: filter 0.5s ease, transform 0.5s ease;
+    display: block;
+  }
+  .event-card:hover .event-img { filter: grayscale(0%) brightness(0.8); transform: scale(1.04); }
+
+  .event-card.large .event-img { aspect-ratio: 3/4; }
+
+  .event-img-placeholder {
+    width: 100%;
+    background: linear-gradient(135deg, #1a0a0d 0%, #2a1020 50%, #1C1C1C 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+  }
+  .event-card.large .event-img-placeholder { aspect-ratio: 3/4; }
+
+  .event-img-placeholder .deco-overlay {
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse at 30% 40%, rgba(139,38,53,0.3) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 70%, rgba(201,169,122,0.1) 0%, transparent 50%);
+  }
+
+  .event-img-placeholder .bottle-icon {
+    font-size: 64px;
+    opacity: 0.15;
+    position: relative;
+    z-index: 1;
+  }
+
+  .event-info {
+    padding: 28px 32px 36px;
+  }
+  .event-date {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .event-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .event-location {
+    font-size: 12px;
+    color: var(--cream-dim);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .event-location::before { content: '◎'; font-size: 10px; color: var(--burgundy-light); }
+
+  .event-link {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: gap 0.3s ease;
+  }
+  .event-link:hover { gap: 16px; }
+  .event-link::after { content: '→'; font-size: 12px; }
+
+  /* ABOUT TEASER */
+  .about-teaser {
+    padding: 140px 60px;
+    background: var(--deep);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 120px;
+    align-items: center;
+    position: relative;
+  }
+
+  .about-visual {
+    position: relative;
+  }
+  .about-img-frame {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: linear-gradient(160deg, #1a0a0d, #2a1020, #0d0d0d);
+    position: relative;
+    overflow: hidden;
+  }
+  .about-img-frame::before {
+    content: '';
+    position: absolute;
+    inset: 16px;
+    border: 1px solid rgba(201,169,122,0.2);
+    pointer-events: none;
+  }
+  .about-img-frame::after {
+    content: '';
+    position: absolute;
+    top: 8px; left: 8px; right: 8px; bottom: 8px;
+    border: 1px solid rgba(201,169,122,0.1);
+    pointer-events: none;
+  }
+  .about-deco-mark {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.06;
+  }
+
+  /* Gold offset box */
+  .about-gold-box {
+    position: absolute;
+    bottom: -24px;
+    right: -24px;
+    width: 60%;
+    height: 180px;
+    border: 1px solid var(--gold);
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  .credential-badge {
+    position: absolute;
+    top: 32px;
+    right: -28px;
+    background: var(--gold);
+    color: var(--black);
+    padding: 16px 20px;
+    text-align: center;
+  }
+  .credential-badge .badge-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .credential-badge .badge-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  .about-content { position: relative; }
+  .about-content p { font-size: 15px; line-height: 1.9; color: var(--cream-dim); margin-bottom: 20px; }
+  .about-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-weight: 500;
+    font-style: italic;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    margin-top: 32px;
+  }
+  .about-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    margin-top: 6px;
+  }
+
+  /* PRESS STRIP */
+  .press-strip {
+    padding: 80px 60px;
+    border-top: 1px solid rgba(201,169,122,0.1);
+    border-bottom: 1px solid rgba(201,169,122,0.1);
+    text-align: center;
+  }
+  .press-eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    margin-bottom: 40px;
+  }
+  .press-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    flex-wrap: wrap;
+  }
+  .press-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 600;
+    font-style: italic;
+    letter-spacing: 0.08em;
+    color: rgba(201,169,122,0.35);
+    transition: color 0.3s ease;
+    white-space: nowrap;
+  }
+  .press-logo:hover { color: var(--gold); }
+
+  /* CONTACT CTA */
+  .contact-cta {
+    padding: 160px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-cta::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(ellipse, rgba(139,38,53,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 6vw, 88px);
+    font-weight: 300;
+    line-height: 1.0;
+    color: var(--white);
+    margin-bottom: 28px;
+    position: relative;
+  }
+  .cta-headline em { font-style: italic; color: var(--gold); }
+  .cta-sub {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--cream-dim);
+    max-width: 500px;
+    margin: 0 auto 52px;
+  }
+  .cta-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* ART DECO DIVIDER */
+  .deco-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 0 60px;
+    margin: 0;
+  }
+  .deco-divider-line { flex: 1; height: 1px; background: rgba(201,169,122,0.2); }
+  .deco-divider-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    color: rgba(201,169,122,0.4);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .deco-divider-mark::before,
+  .deco-divider-mark::after {
+    content: '◆';
+    font-size: 8px;
+    color: rgba(201,169,122,0.3);
+  }
+
+  /* FOOTER */
+  footer {
+    background: #080808;
+    padding: 80px 60px 40px;
+    border-top: 1px solid rgba(201,169,122,0.15);
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 60px;
+  }
+  .footer-brand-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+  .footer-brand-name span { color: var(--gold); }
+  .footer-tagline {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--cream-dim);
+    margin-bottom: 28px;
+  }
+  .footer-social {
+    display: flex;
+    gap: 16px;
+  }
+  .footer-social a {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    text-decoration: none;
+    border: 1px solid rgba(201,169,122,0.2);
+    padding: 8px 14px;
+    transition: border-color 0.3s, color 0.3s;
+  }
+  .footer-social a:hover { border-color: var(--gold); color: var(--gold); }
+
+  .footer-col-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+  }
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .footer-links a {
+    font-size: 13px;
+    color: var(--cream-dim);
+    text-decoration: none;
+    transition: color 0.3s;
+    letter-spacing: 0.04em;
+  }
+  .footer-links a:hover { color: var(--gold); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-copy {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: rgba(201,169,122,0.3);
+  }
+  .footer-domain {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: rgba(201,169,122,0.5);
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.15s; }
+  .reveal-delay-2 { transition-delay: 0.3s; }
+  .reveal-delay-3 { transition-delay: 0.45s; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+  @keyframes marqueeScroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes rotateSlow {
+    from { transform: translate(-50%,-50%) rotate(0deg); }
+    to { transform: translate(-50%,-50%) rotate(360deg); }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero-right { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 120px 24px 80px; }
+    .hero-headline { font-size: clamp(48px, 12vw, 72px); }
+  }
+
+  @media (max-width: 1100px) {
+    nav { padding: 24px 32px; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { padding: 140px 32px 80px; }
+    .philosophy, .about-teaser { grid-template-columns: 1fr; gap: 60px; padding: 80px 32px; }
+    .services, .events { padding: 80px 32px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .events-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .contact-cta { padding: 100px 32px; }
+  }
+
+  
+
+  /* === NAV REBUILD === */
+  #sipmoreNav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9990;
+    padding: 22px 60px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(13,13,13,0.97);
+    border-bottom: 1px solid rgba(201,169,122,0.1);
+  }
+  #sipmoreNav .nav-logo {
+    font-family: 'Cormorant Garamond', serif; font-size: 22px;
+    font-weight: 600; letter-spacing: 0.18em;
+    color: #F2EDE4; text-decoration: none; text-transform: uppercase;
+    z-index: 9992; position: relative;
+  }
+  #sipmoreNav .nav-logo span { color: #C9A97A; }
+  #sipmoreNav .nav-links {
+    display: flex; gap: 42px; list-style: none; align-items: center;
+  }
+  #sipmoreNav .nav-links a {
+    font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: #C8C0B2; text-decoration: none; transition: color 0.3s;
+  }
+  #sipmoreNav .nav-links a:hover { color: #C9A97A; }
+  #sipmoreNav .nav-links a.active { color: #C9A97A; }
+  #sipmoreNav .nav-cta {
+    color: #0D0D0D !important; background: #C9A97A;
+    padding: 12px 26px;
+  }
+  #sipmoreNav .nav-cta:hover { background: #DFC49A !important; }
+
+  /* Hamburger */
+  #navToggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    width: 44px; height: 44px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 9992;
+    position: relative;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    touch-action: manipulation;
+  }
+  #navToggle .bar {
+    display: block;
+    width: 24px; height: 1.5px;
+    background: #C9A97A;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform-origin: center;
+  }
+  #navToggle.is-open .bar:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  #navToggle.is-open .bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  #navToggle.is-open .bar:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  /* Mobile menu */
+  #mobileNav {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: #0D0D0D;
+    z-index: 9991;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+  #mobileNav a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 44px; font-weight: 300;
+    color: #F2EDE4; text-decoration: none;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(201,169,122,0.12);
+    width: 100%; text-align: center;
+    transition: color 0.3s;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+  }
+  #mobileNav a.active { color: #C9A97A; }
+  #mobileNav a:last-child {
+    border: none; margin-top: 24px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: #0D0D0D; background: #C9A97A;
+    padding: 16px 40px; width: auto;
+  }
+
+  @media (max-width: 768px) {
+    #sipmoreNav { padding: 20px 24px; }
+    #sipmoreNav .nav-links { display: none; }
+    #navToggle { display: flex; }
+  }
+
+
+  /* === BOTTOM NAV (mobile only) === */
+  #bottomNav {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 9990;
+    background: #0D0D0D;
+    border-top: 1px solid rgba(201,169,122,0.15);
+    padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+  }
+  #bottomNav ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0; padding: 0;
+  }
+  #bottomNav li a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+    color: rgba(200,192,178,0.45);
+    transition: color 0.2s ease;
+    padding: 4px 12px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  #bottomNav li a.active { color: #C9A97A; }
+  #bottomNav li a:hover { color: #C9A97A; }
+  #bottomNav li a svg {
+    width: 22px; height: 22px;
+    stroke: currentColor;
+  }
+  #bottomNav li a span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 768px) {
+    #bottomNav { display: block; }
+    #sipmoreNav { display: none !important; }
+    #bottomNav { display: block !important; }
+    /* Add bottom padding to body so content isn't hidden behind nav */
+    body { padding-bottom: 72px; }
+  }
+
+</style>
+</head>
+<body>
+<nav id="sipmoreNav">
+  <a href="index.html" class="nav-logo">Sip <span>More</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html" class="nav-cta">Work With Us</a></li>
+  </ul>
+  <button id="navToggle" type="button" aria-label="Open menu">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </button>
+</nav>
+<div id="mobileNav">
+  <a href="index.html" class="active">Home</a>
+  <a href="events.html">Events</a>
+  <a href="services.html">Services</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Work With Us</a>
+</div>
+
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+
+
+
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">New Orleans · Est. 2022</div>
+    <h1 class="hero-headline">
+      Wine lives<br>
+      <em>where</em>
+      <span class="line2">culture does.</span>
+    </h1>
+    <p class="hero-sub">Sip More is a wine and experiential hospitality brand building culture-forward beverage programs for restaurants, hotels, and the spaces between.</p>
+    <div class="hero-actions">
+      <a href="#services" class="btn-primary">View Services</a>
+      <a href="#about" class="btn-ghost">Our Story</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-right-inner"></div>
+
+    <!-- Art Deco geometric frame -->
+    <div class="deco-frame">
+      <svg viewBox="0 0 340 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Outer rect -->
+        <rect x="10" y="10" width="320" height="480" stroke="rgba(201,169,122,0.15)" stroke-width="1"/>
+        <!-- Inner rect -->
+        <rect x="24" y="24" width="292" height="452" stroke="rgba(201,169,122,0.08)" stroke-width="1"/>
+        <!-- Corner deco -->
+        <path d="M10 60 L10 10 L60 10" stroke="rgba(201,169,122,0.5)" stroke-width="1.5"/>
+        <path d="M280 10 L330 10 L330 60" stroke="rgba(201,169,122,0.5)" stroke-width="1.5"/>
+        <path d="M10 440 L10 490 L60 490" stroke="rgba(201,169,122,0.5)" stroke-width="1.5"/>
+        <path d="M280 490 L330 490 L330 440" stroke="rgba(201,169,122,0.5)" stroke-width="1.5"/>
+        <!-- Center horizontal lines -->
+        <line x1="10" y1="170" x2="100" y2="170" stroke="rgba(201,169,122,0.2)" stroke-width="1"/>
+        <line x1="240" y1="170" x2="330" y2="170" stroke="rgba(201,169,122,0.2)" stroke-width="1"/>
+        <line x1="10" y1="330" x2="100" y2="330" stroke="rgba(201,169,122,0.2)" stroke-width="1"/>
+        <line x1="240" y1="330" x2="330" y2="330" stroke="rgba(201,169,122,0.2)" stroke-width="1"/>
+        <!-- Diamond center -->
+        <polygon points="170,158 182,170 170,182 158,170" stroke="rgba(201,169,122,0.4)" stroke-width="1" fill="none"/>
+        <polygon points="170,148 192,170 170,192 148,170" stroke="rgba(201,169,122,0.2)" stroke-width="1" fill="none"/>
+        <!-- Radial lines from center -->
+        <line x1="170" y1="140" x2="170" y2="80" stroke="rgba(201,169,122,0.1)" stroke-width="1"/>
+        <line x1="170" y1="200" x2="170" y2="260" stroke="rgba(201,169,122,0.1)" stroke-width="1"/>
+      </svg>
+    </div>
+
+    <!-- Logo mark -->
+    <img class="hero-logo-mark" src="images/logo.png" alt="Sip More" onerror="this.style.opacity='0'">
+
+    <div class="hero-vertical-text">sipmore.wine · New Orleans, LA</div>
+
+    <!-- Radial glow -->
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:300px;height:400px;background:radial-gradient(ellipse,rgba(139,38,53,0.18) 0%,transparent 70%);pointer-events:none;"></div>
+  </div>
+
+
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track" id="marqueeTrack">
+    <div class="marquee-item">Wine Program Curation</div>
+    <div class="marquee-item">Event & Experience Design</div>
+    <div class="marquee-item">Staff Education & Training</div>
+    <div class="marquee-item">Beverage Consulting</div>
+    <div class="marquee-item">Velvet Sessions</div>
+    <div class="marquee-item">Cultural Hospitality</div>
+    <div class="marquee-item">WSET Certified · Est. 2022</div>
+    <div class="marquee-item">Wine Program Curation</div>
+    <div class="marquee-item">Event & Experience Design</div>
+    <div class="marquee-item">Staff Education & Training</div>
+    <div class="marquee-item">Beverage Consulting</div>
+    <div class="marquee-item">Velvet Sessions</div>
+    <div class="marquee-item">Cultural Hospitality</div>
+    <div class="marquee-item">WSET Certified · Est. 2022</div>
+  </div>
+</div>
+
+<!-- PHILOSOPHY -->
+<section class="philosophy" id="about">
+  <div class="philosophy-left reveal">
+    <div class="section-tag">Our Philosophy</div>
+    <h2 class="section-headline">
+      We don't pour wine.<br>
+      We build <em>culture</em><br>
+      around it.
+    </h2>
+    <p class="philosophy-body">Sip More was built on the belief that wine doesn't belong locked behind velvet ropes or intimidating lists. It belongs in the room — in the music, the conversation, the moment.</p>
+    <p class="philosophy-body">We work with hospitality groups who want their beverage programs to feel as intentional as the rest of the experience — and who understand that the right wine director changes the entire room.</p>
+    <a href="#about" class="btn-ghost" style="margin-top:12px;">Read Our Story</a>
+  </div>
+  <div class="philosophy-right reveal reveal-delay-1">
+    <div class="deco-number">S</div>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-number">6<span>+</span></div>
+        <div class="stat-label">Years in New Orleans Hospitality</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">L<span>3</span></div>
+        <div class="stat-label">WSET Certified</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">30<span>+</span></div>
+        <div class="stat-label">Events Curated</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">1<span>city</span></div>
+        <div class="stat-label">New Orleans — For Now</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="deco-divider"><div class="deco-divider-line"></div><div class="deco-divider-mark">Sip More</div><div class="deco-divider-line"></div></div>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services-header reveal">
+    <div class="section-tag">Consulting Services</div>
+    <h2 class="section-headline" style="font-size:clamp(42px,4vw,62px);margin:0 auto;">Three ways to work together.</h2>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-tier">Tier 01</div>
+      <div class="service-name">Pour</div>
+      <div class="service-type">Project-Based Consultation</div>
+      <p class="service-desc">Targeted interventions for venues that need a specific problem solved — a wine list built, a team trained, a concept activated.</p>
+      <ul class="service-features">
+        <li>Wine list audit & redesign</li>
+        <li>Single staff training session</li>
+        <li>Event concept & run-of-show</li>
+        <li>Wine pairing menu development</li>
+      </ul>
+      <div class="service-price">$1,500 <span>Starting</span></div>
+    </div>
+
+    <div class="service-card featured reveal reveal-delay-1">
+      <div class="service-tier">Tier 02</div>
+      <div class="service-name">Blend</div>
+      <div class="service-type">Monthly Programming Retainer</div>
+      <p class="service-desc">For venues ready to build something consistent. Ongoing wine programming, staff education, and event curation every month.</p>
+      <ul class="service-features">
+        <li>Wine program updates & curation</li>
+        <li>Monthly staff training sessions</li>
+        <li>1–2 event concepts per month</li>
+        <li>Beverage menu consulting</li>
+        <li>Monthly strategy check-in</li>
+      </ul>
+      <div class="service-price">$2,500 <span>/ month</span></div>
+    </div>
+
+    <div class="service-card reveal reveal-delay-2">
+      <div class="service-tier">Tier 03</div>
+      <div class="service-name">Reserve</div>
+      <div class="service-type">Full Beverage Partnership</div>
+      <p class="service-desc">Full-scope beverage directorship. Mahlik becomes your embedded wine and experience director — handling program, training, activations, and strategy.</p>
+      <ul class="service-features">
+        <li>Full beverage program oversight</li>
+        <li>Vendor & supplier management</li>
+        <li>Signature event series development</li>
+        <li>Brand collaboration facilitation</li>
+        <li>Quarterly strategic reviews</li>
+      </ul>
+      <div class="service-price">Custom <span>Proposal</span></div>
+    </div>
+  </div>
+
+  <div class="services-cta reveal">
+    <a href="#contact" class="btn-primary">Book a Discovery Call</a>
+  </div>
+</section>
+
+<div class="deco-divider"><div class="deco-divider-line"></div><div class="deco-divider-mark">Events</div><div class="deco-divider-line"></div></div>
+
+<!-- EVENTS -->
+<section class="events" id="events">
+  <div class="events-header reveal">
+    <div>
+      <div class="section-tag">Upcoming Events</div>
+      <h2 class="section-headline" style="font-size:clamp(38px,3.5vw,56px);">Experiences<br>worth <em>showing up for.</em></h2>
+    </div>
+    <a href="#" class="btn-ghost">All Events</a>
+  </div>
+
+  <div class="events-grid">
+    <div class="event-card large reveal">
+      <div class="event-img-placeholder">
+        <div class="deco-overlay"></div>
+        <div style="position:relative;z-index:2;text-align:center;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:300;color:rgba(201,169,122,0.5);line-height:1;">Velvet</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:300;font-style:italic;color:rgba(201,169,122,0.3);line-height:1;">Sessions</div>
+        </div>
+      </div>
+      <div class="event-info">
+        <div class="event-date">Coming Soon · 2026</div>
+        <div class="event-name">The Velvet Sessions</div>
+        <div class="event-location">New Orleans, LA</div>
+        <a href="#" class="event-link">Get Tickets</a>
+      </div>
+    </div>
+
+    <div class="event-card reveal reveal-delay-1">
+      <div class="event-img-placeholder">
+        <div class="deco-overlay"></div>
+        <div style="position:relative;z-index:2;text-align:center;padding:20px;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;font-style:italic;color:rgba(201,169,122,0.5);">What's Poppin,</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:rgba(201,169,122,0.4);">Velvet?</div>
+        </div>
+      </div>
+      <div class="event-info">
+        <div class="event-date">Juneteenth · June 2026</div>
+        <div class="event-name">What's Poppin, Velvet?</div>
+        <div class="event-location">New Orleans, LA</div>
+        <a href="#" class="event-link">Get Tickets</a>
+      </div>
+    </div>
+
+    <div class="event-card reveal reveal-delay-2">
+      <div class="event-img-placeholder">
+        <div class="deco-overlay"></div>
+        <div style="position:relative;z-index:2;text-align:center;padding:20px;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:rgba(201,169,122,0.5);">Sip & Smile</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:0.25em;color:rgba(201,169,122,0.3);margin-top:8px;">GOLF CLASSIC</div>
+        </div>
+      </div>
+      <div class="event-info">
+        <div class="event-date">Annual · TBD 2026</div>
+        <div class="event-name">Sip & Smile Golf Classic</div>
+        <div class="event-location">New Orleans, LA</div>
+        <a href="#" class="event-link">Learn More</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="deco-divider"><div class="deco-divider-line"></div><div class="deco-divider-mark">Mahlik</div><div class="deco-divider-line"></div></div>
+
+<!-- ABOUT TEASER -->
+<section class="about-teaser">
+  <div class="about-visual reveal">
+    <div class="about-img-frame">
+      <div class="about-deco-mark">
+        <img src="images/logo.png" alt="" style="width:80%;opacity:0.3;" onerror="this.style.display='none'">
+      </div>
+    </div>
+    <div class="about-gold-box"></div>
+    <div class="credential-badge">
+      <div class="badge-title">Certified</div>
+      <div class="badge-sub">WSET<br>Level 3</div>
+    </div>
+  </div>
+
+  <div class="about-content reveal reveal-delay-1">
+    <div class="section-tag">The Director</div>
+    <h2 class="section-headline">Mahlik<br><em>Richardson</em></h2>
+    <p>WSET Level 3 certified sommelier, beverage curator, and the founder behind Sip More LLC. Mahlik brings together a background in Four Seasons hospitality, deep roots in New Orleans culture, and a genuine obsession with how wine moves through a room.</p>
+    <p>His approach is simple: wine should live where people live. That means R&B nights, jazz clubs, hotel lobbies, and cookouts — not just tasting rooms.</p>
+    <a href="#" class="btn-ghost" style="margin-top: 12px;">Full Bio</a>
+    <div class="about-name">Mahlik Rich</div>
+    <div class="about-title">Founder & Beverage Director, Sip More LLC</div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="press-strip" id="press" style="padding: 100px 60px;">
+  <div class="press-eyebrow">Quarterly Newsletter</div>
+  <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4vw,58px);font-weight:300;color:var(--white);margin-bottom:16px;">
+    The Sip More <em style="font-style:italic;color:var(--gold);">Report</em>
+  </h2>
+  <p style="font-size:14px;line-height:1.8;color:var(--cream-dim);max-width:480px;margin:0 auto 44px;">
+    Wine picks, event announcements, industry perspective, and what we're building next — delivered to your inbox every quarter.
+  </p>
+  <form style="display:flex;gap:0;max-width:480px;margin:0 auto;" onsubmit="handleSignup(event)">
+    <input
+      type="email"
+      placeholder="Your email address"
+      id="newsletterEmail"
+      required
+      style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(201,169,122,0.3);border-right:none;padding:16px 24px;font-family:'Lato',sans-serif;font-size:13px;color:var(--cream);outline:none;letter-spacing:0.05em;"
+    >
+    <button
+      type="submit"
+      style="background:var(--gold);border:none;padding:16px 32px;font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.25em;text-transform:uppercase;color:var(--black);cursor:pointer;white-space:nowrap;transition:background 0.3s ease;"
+      onmouseover="this.style.background='#DFC49A'"
+      onmouseout="this.style.background='var(--gold)'"
+    >Subscribe</button>
+  </form>
+  <p id="signupConfirm" style="font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:0.2em;color:var(--gold);margin-top:20px;opacity:0;transition:opacity 0.4s ease;">
+    ◆ &nbsp; You're on the list. Welcome to The Report.
+  </p>
+  <p style="font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:0.15em;color:rgba(201,169,122,0.3);margin-top:16px;text-transform:uppercase;">No spam. One email per quarter. Unsubscribe anytime.</p>
+</section>
+
+<!-- CONTACT CTA -->
+<section class="contact-cta" id="contact">
+  <p class="hero-eyebrow" style="justify-content:center;opacity:1;animation:none;">Let's Build</p>
+  <h2 class="cta-headline">
+    Ready to elevate<br>
+    <em>your program?</em>
+  </h2>
+  <p class="cta-sub">Sip More is currently accepting new consulting clients in the New Orleans area and beyond. Start with a complimentary discovery call.</p>
+  <div class="cta-actions">
+    <a href="/cdn-cgi/l/email-protection#19717c757576596a706974766b7c376e70777c" class="btn-primary">Book a Discovery Call</a>
+    <a href="/cdn-cgi/l/email-protection#b4dcd1d8d8dbf4c7ddc4d9dbc6d19ac3dddad1" class="btn-ghost">Send a Message</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-name">Sip <span>More</span></div>
+      <p class="footer-tagline">Wine and experiential hospitality, rooted in New Orleans culture.</p>
+      <div class="footer-social">
+        <a href="#">IG</a>
+        <a href="#">TK</a>
+        <a href="#">LI</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Services</div>
+      <ul class="footer-links">
+        <li><a href="#">Pour — Consultation</a></li>
+        <li><a href="#">Blend — Programming</a></li>
+        <li><a href="#">Reserve — Partnership</a></li>
+        <li><a href="#">Add-On Services</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Experiences</div>
+      <ul class="footer-links">
+        <li><a href="#">The Velvet Sessions</a></li>
+        <li><a href="#">Velvet Brunch</a></li>
+        <li><a href="#">Press Play</a></li>
+        <li><a href="#">Sip & Smile Golf Classic</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Connect</div>
+      <ul class="footer-links">
+        <li><a href="#">About Mahlik</a></li>
+        <li><a href="#">The Sip More Report</a></li>
+        <li><a href="#">Work With Us</a></li>
+        <li><a href="#">sipmore.wine</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 Sip More LLC. All rights reserved. New Orleans, LA.</div>
+    <div class="footer-domain">sipmore.wine</div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js">
+
+
+  (function() {
+    function initMenu() {
+      var btn = document.getElementById('hamburger');
+      var menu = document.getElementById('mobileMenu');
+      if (!btn || !menu) return;
+      var isOpen = false;
+      
+      btn.addEventListener('click', toggleMenu);
+      btn.addEventListener('touchend', toggleMenu);
+      menu.querySelectorAll('a').forEach(function(a) {
+        a.addEventListener('click', function() {
+          isOpen = false;
+          menu.style.display = 'none';
+          btn.classList.remove('open');
+          document.body.style.overflow = '';
+        });
+      });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initMenu);
+    } else {
+      initMenu();
+    }
+  })();
+
+</script>
+  });
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursor.style.left = mouseX + 'px';
+    cursor.style.top = mouseY + 'px';
+  });
+
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.12;
+    ringY += (mouseY - ringY) * 0.12;
+    ring.style.left = ringX + 'px';
+    ring.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Newsletter signup
+  function handleSignup(e) {
+    e.preventDefault();
+    const confirm = document.getElementById('signupConfirm');
+    confirm.style.opacity = '1';
+    document.getElementById('newsletterEmail').value = '';
+  }
+
+  // Sticky nav
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+  
