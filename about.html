@@ -597,6 +597,13 @@
     .stat-item { border-right: none; border-bottom: 1px solid rgba(201,169,122,0.08); }
     .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
   }
+
+  /* Force all content visible */
+  .reveal, .reveal.visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
 </style>
 </head>
 <body>

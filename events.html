@@ -542,6 +542,13 @@
     .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
     .event-newsletter { padding: 80px 32px; }
   }
+
+  /* Force all content visible */
+  .reveal, .reveal.visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
 </style>
 </head>
 <body>
@@ -555,7 +562,7 @@
   <ul class="nav-links">
     <li><a href="index.html#services">Services</a></li>
     <li><a href="events.html" class="active">Events</a></li>
-    <li><a href="#">About</a></li>
+    <li><a href="about.html">About</a></li>
     <li><a href="#">Press</a></li>
     <li><a href="index.html#contact" class="nav-cta">Work With Us</a></li>
   </ul>

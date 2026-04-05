@@ -1084,6 +1084,13 @@
     .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
     .contact-cta { padding: 100px 32px; }
   }
+
+  /* Force all content visible */
+  .reveal, .reveal.visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
 </style>
 </head>
 <body>
@@ -1099,7 +1106,7 @@
     <li><a href="services.html">Services</a></li>
     <li><a href="events.html">Events</a></li>
     <li><a href="about.html">About</a></li>
-    <li><a href="#press">Press</a></li>
+    <li><a href="contact.html">Press</a></li>
     <li><a href="contact.html" class="nav-cta">Work With Us</a></li>
   </ul>
 </nav>
@@ -1286,7 +1293,7 @@
       <div class="section-tag">Upcoming Events</div>
       <h2 class="section-headline" style="font-size:clamp(38px,3.5vw,56px);">Experiences<br>worth <em>showing up for.</em></h2>
     </div>
-    <a href="#" class="btn-ghost">All Events</a>
+    <a href="events.html" class="btn-ghost">All Events</a>
   </div>
 
   <div class="events-grid">

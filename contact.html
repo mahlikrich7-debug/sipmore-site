@@ -503,6 +503,13 @@
     .bottom-strip { grid-template-columns: 1fr; padding: 60px 32px; }
     .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
   }
+
+  /* Force all content visible */
+  .reveal, .reveal.visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
 </style>
 </head>
 <body>
