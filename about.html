@@ -35,7 +35,7 @@
     content: '';
     position: fixed; inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none; touch-action: none; z-index: 1; opacity: 0.35;
+    pointer-events: none; z-index: 1000; opacity: 0.35;
   }
 
   .cursor { position: fixed; width: 10px; height: 10px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); mix-blend-mode: screen; }
@@ -596,191 +596,24 @@
     .stat-item { border-right: none; border-bottom: 1px solid rgba(201,169,122,0.08); }
     .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
   }
-
-  
-
-  /* === NAV REBUILD === */
-  #sipmoreNav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 9990;
-    padding: 22px 60px;
-    display: flex; justify-content: space-between; align-items: center;
-    background: rgba(13,13,13,0.97);
-    border-bottom: 1px solid rgba(201,169,122,0.1);
-  }
-  #sipmoreNav .nav-logo {
-    font-family: 'Cormorant Garamond', serif; font-size: 22px;
-    font-weight: 600; letter-spacing: 0.18em;
-    color: #F2EDE4; text-decoration: none; text-transform: uppercase;
-    z-index: 9992; position: relative;
-  }
-  #sipmoreNav .nav-logo span { color: #C9A97A; }
-  #sipmoreNav .nav-links {
-    display: flex; gap: 42px; list-style: none; align-items: center;
-  }
-  #sipmoreNav .nav-links a {
-    font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500;
-    letter-spacing: 0.22em; text-transform: uppercase;
-    color: #C8C0B2; text-decoration: none; transition: color 0.3s;
-  }
-  #sipmoreNav .nav-links a:hover { color: #C9A97A; }
-  #sipmoreNav .nav-links a.active { color: #C9A97A; }
-  #sipmoreNav .nav-cta {
-    color: #0D0D0D !important; background: #C9A97A;
-    padding: 12px 26px;
-  }
-  #sipmoreNav .nav-cta:hover { background: #DFC49A !important; }
-
-  /* Hamburger */
-  #navToggle {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
-    width: 44px; height: 44px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    z-index: 9992;
-    position: relative;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-    touch-action: manipulation;
-  }
-  #navToggle .bar {
-    display: block;
-    width: 24px; height: 1.5px;
-    background: #C9A97A;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    transform-origin: center;
-  }
-  #navToggle.is-open .bar:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
-  #navToggle.is-open .bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
-  #navToggle.is-open .bar:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
-
-  /* Mobile menu */
-  #mobileNav {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: #0D0D0D;
-    z-index: 9991;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px;
-  }
-  #mobileNav a {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 44px; font-weight: 300;
-    color: #F2EDE4; text-decoration: none;
-    padding: 16px 0;
-    border-bottom: 1px solid rgba(201,169,122,0.12);
-    width: 100%; text-align: center;
-    transition: color 0.3s;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-  }
-  #mobileNav a.active { color: #C9A97A; }
-  #mobileNav a:last-child {
-    border: none; margin-top: 24px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 13px; font-weight: 700;
-    letter-spacing: 0.25em; text-transform: uppercase;
-    color: #0D0D0D; background: #C9A97A;
-    padding: 16px 40px; width: auto;
-  }
-
-  @media (max-width: 768px) {
-    #sipmoreNav { padding: 20px 24px; }
-    #sipmoreNav .nav-links { display: none; }
-    #navToggle { display: flex; }
-  }
-
-
-  /* === BOTTOM NAV (mobile only) === */
-  #bottomNav {
-    display: none;
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    z-index: 9990;
-    background: #0D0D0D;
-    border-top: 1px solid rgba(201,169,122,0.15);
-    padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
-  }
-  #bottomNav ul {
-    list-style: none;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin: 0; padding: 0;
-  }
-  #bottomNav li a {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    text-decoration: none;
-    color: rgba(200,192,178,0.45);
-    transition: color 0.2s ease;
-    padding: 4px 12px;
-    -webkit-tap-highlight-color: transparent;
-  }
-  #bottomNav li a.active { color: #C9A97A; }
-  #bottomNav li a:hover { color: #C9A97A; }
-  #bottomNav li a svg {
-    width: 22px; height: 22px;
-    stroke: currentColor;
-  }
-  #bottomNav li a span {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-
-  @media (max-width: 768px) {
-    #bottomNav { display: block; }
-    #sipmoreNav { display: none !important; }
-    #bottomNav { display: block !important; }
-    /* Add bottom padding to body so content isn't hidden behind nav */
-    body { padding-bottom: 72px; }
-  }
-
 </style>
 </head>
 <body>
-<nav id="sipmoreNav">
-  <a href="index.html" class="nav-logo">Sip <span>More</span></a>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="events.html">Events</a></li>
-    <li><a href="services.html">Services</a></li>
-    <li><a href="about.html" class="active">About</a></li>
-    <li><a href="contact.html" class="nav-cta">Work With Us</a></li>
-  </ul>
-  <button id="navToggle" type="button" aria-label="Open menu">
-    <span class="bar"></span>
-    <span class="bar"></span>
-    <span class="bar"></span>
-  </button>
-</nav>
-<div id="mobileNav">
-  <a href="index.html">Home</a>
-  <a href="events.html">Events</a>
-  <a href="services.html">Services</a>
-  <a href="about.html" class="active">About</a>
-  <a href="contact.html">Work With Us</a>
-</div>
-
 
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
 <!-- NAV -->
-
-
-
+<nav>
+  <a href="index.html" class="nav-logo">Sip <span>More</span></a>
+  <ul class="nav-links">
+    <li><a href="services.html">Services</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="#">Press</a></li>
+    <li><a href="services.html#contact" class="nav-cta">Work With Us</a></li>
+  </ul>
+</nav>
 
 <!-- HERO -->
 <section class="hero">
@@ -1021,7 +854,7 @@
   <p class="cta-sub">Whether you're a restaurant group, hotel, or brand looking for a beverage partner who brings culture with the expertise — let's talk.</p>
   <div class="cta-actions">
     <a href="services.html" class="btn-primary">View Services</a>
-    <a href="/cdn-cgi/l/email-protection#7a121f1616153a09130a1715081f540d13141f" class="btn-ghost">Get in Touch</a>
+    <a href="/cdn-cgi/l/email-protection#cca4a9a0a0a38cbfa5bca1a3bea9e2bba5a2a9" class="btn-ghost">Get in Touch</a>
   </div>
 </section>
 
@@ -1069,37 +902,7 @@
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js">
-
-
-  (function() {
-    function initMenu() {
-      var btn = document.getElementById('hamburger');
-      var menu = document.getElementById('mobileMenu');
-      if (!btn || !menu) return;
-      var isOpen = false;
-      
-      btn.addEventListener('click', toggleMenu);
-      btn.addEventListener('touchend', toggleMenu);
-      menu.querySelectorAll('a').forEach(function(a) {
-        a.addEventListener('click', function() {
-          isOpen = false;
-          menu.style.display = 'none';
-          btn.classList.remove('open');
-          document.body.style.overflow = '';
-        });
-      });
-    }
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initMenu);
-    } else {
-      initMenu();
-    }
-  })();
-
-</script>
-  });
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursorRing');
   let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;

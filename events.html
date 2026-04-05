@@ -541,191 +541,24 @@
     .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
     .event-newsletter { padding: 80px 32px; }
   }
-
-  
-
-  /* === NAV REBUILD === */
-  #sipmoreNav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 9990;
-    padding: 22px 60px;
-    display: flex; justify-content: space-between; align-items: center;
-    background: rgba(13,13,13,0.97);
-    border-bottom: 1px solid rgba(201,169,122,0.1);
-  }
-  #sipmoreNav .nav-logo {
-    font-family: 'Cormorant Garamond', serif; font-size: 22px;
-    font-weight: 600; letter-spacing: 0.18em;
-    color: #F2EDE4; text-decoration: none; text-transform: uppercase;
-    z-index: 9992; position: relative;
-  }
-  #sipmoreNav .nav-logo span { color: #C9A97A; }
-  #sipmoreNav .nav-links {
-    display: flex; gap: 42px; list-style: none; align-items: center;
-  }
-  #sipmoreNav .nav-links a {
-    font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500;
-    letter-spacing: 0.22em; text-transform: uppercase;
-    color: #C8C0B2; text-decoration: none; transition: color 0.3s;
-  }
-  #sipmoreNav .nav-links a:hover { color: #C9A97A; }
-  #sipmoreNav .nav-links a.active { color: #C9A97A; }
-  #sipmoreNav .nav-cta {
-    color: #0D0D0D !important; background: #C9A97A;
-    padding: 12px 26px;
-  }
-  #sipmoreNav .nav-cta:hover { background: #DFC49A !important; }
-
-  /* Hamburger */
-  #navToggle {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
-    width: 44px; height: 44px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    z-index: 9992;
-    position: relative;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-    touch-action: manipulation;
-  }
-  #navToggle .bar {
-    display: block;
-    width: 24px; height: 1.5px;
-    background: #C9A97A;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    transform-origin: center;
-  }
-  #navToggle.is-open .bar:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
-  #navToggle.is-open .bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
-  #navToggle.is-open .bar:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
-
-  /* Mobile menu */
-  #mobileNav {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: #0D0D0D;
-    z-index: 9991;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px;
-  }
-  #mobileNav a {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 44px; font-weight: 300;
-    color: #F2EDE4; text-decoration: none;
-    padding: 16px 0;
-    border-bottom: 1px solid rgba(201,169,122,0.12);
-    width: 100%; text-align: center;
-    transition: color 0.3s;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-  }
-  #mobileNav a.active { color: #C9A97A; }
-  #mobileNav a:last-child {
-    border: none; margin-top: 24px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 13px; font-weight: 700;
-    letter-spacing: 0.25em; text-transform: uppercase;
-    color: #0D0D0D; background: #C9A97A;
-    padding: 16px 40px; width: auto;
-  }
-
-  @media (max-width: 768px) {
-    #sipmoreNav { padding: 20px 24px; }
-    #sipmoreNav .nav-links { display: none; }
-    #navToggle { display: flex; }
-  }
-
-
-  /* === BOTTOM NAV (mobile only) === */
-  #bottomNav {
-    display: none;
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    z-index: 9990;
-    background: #0D0D0D;
-    border-top: 1px solid rgba(201,169,122,0.15);
-    padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
-  }
-  #bottomNav ul {
-    list-style: none;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin: 0; padding: 0;
-  }
-  #bottomNav li a {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    text-decoration: none;
-    color: rgba(200,192,178,0.45);
-    transition: color 0.2s ease;
-    padding: 4px 12px;
-    -webkit-tap-highlight-color: transparent;
-  }
-  #bottomNav li a.active { color: #C9A97A; }
-  #bottomNav li a:hover { color: #C9A97A; }
-  #bottomNav li a svg {
-    width: 22px; height: 22px;
-    stroke: currentColor;
-  }
-  #bottomNav li a span {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-
-  @media (max-width: 768px) {
-    #bottomNav { display: block; }
-    #sipmoreNav { display: none !important; }
-    #bottomNav { display: block !important; }
-    /* Add bottom padding to body so content isn't hidden behind nav */
-    body { padding-bottom: 72px; }
-  }
-
 </style>
 </head>
 <body>
-<nav id="sipmoreNav">
-  <a href="index.html" class="nav-logo" style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">Sip <span>More</span></a>
-  <ul class="nav-links">
-    <li><a href="index.html"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">Home</a></li>
-    <li><a href="events.html" class="active" style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:#C9A97A;padding:4px 8px;-webkit-tap-highlight-color:transparent;">Events</a></li>
-    <li><a href="services.html"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">Services</a></li>
-    <li><a href="about.html"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">About</a></li>
-    <li><a href="contact.html" class="nav-cta" style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">Work With Us</a></li>
-  </ul>
-  <button id="navToggle" type="button" aria-label="Open menu">
-    <span class="bar"></span>
-    <span class="bar"></span>
-    <span class="bar"></span>
-  </button>
-</nav>
-<div id="mobileNav">
-  <a href="index.html"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">Home</a>
-  <a href="events.html" class="active" style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:#C9A97A;padding:4px 8px;-webkit-tap-highlight-color:transparent;">Events</a>
-  <a href="services.html"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">Services</a>
-  <a href="about.html"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">About</a>
-  <a href="contact.html"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">Work With Us</a>
-</div>
-
 
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
 <!-- NAV -->
-
-
-
+<nav>
+  <a href="index.html" class="nav-logo">Sip <span>More</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="events.html" class="active">Events</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Press</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Work With Us</a></li>
+  </ul>
+</nav>
 
 <!-- PAGE HERO -->
 <section class="page-hero">
@@ -782,7 +615,7 @@
         <p class="series-desc">An elevated R&B night rewritten from the ground up. Champagne greetings, roses, lounge seating, curated atmosphere, and a signature after-party cocktail. Music, wine, and culture — together the way they were always meant to be.</p>
         <div class="series-actions">
           <a href="https://universe.com" target="_blank" class="btn-primary">Get Tickets</a>
-          <a href="#" class="btn-ghost" style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">About the Series</a>
+          <a href="#" class="btn-ghost">About the Series</a>
         </div>
       </div>
     </div>
@@ -801,7 +634,7 @@
         <p class="series-desc">Curated bites, bottomless mimosas, DJs, and live instrumental performances. Brunch, elevated. Part of the Velvet universe.</p>
         <div class="series-actions">
           <a href="https://universe.com" target="_blank" class="btn-primary">Get Tickets</a>
-          <a href="#" class="btn-ghost" style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">Learn More</a>
+          <a href="#" class="btn-ghost">Learn More</a>
         </div>
       </div>
     </div>
@@ -828,7 +661,7 @@
         <p class="series-desc">A weekly interactive music listening experience where the audience votes on themed playlists and album choices. Culture, conversation, and wine — no stage, just the room.</p>
         <div class="series-actions">
           <a href="https://universe.com" target="_blank" class="btn-primary">Get Tickets</a>
-          <a href="#" class="btn-ghost" style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">Learn More</a>
+          <a href="#" class="btn-ghost">Learn More</a>
         </div>
       </div>
     </div>
@@ -929,34 +762,34 @@
       <div class="footer-brand-name">Sip <span>More</span></div>
       <p class="footer-tagline">Wine and experiential hospitality, rooted in New Orleans culture.</p>
       <div class="footer-social">
-        <a href="#"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">IG</a><a href="#"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">TK</a><a href="#"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">LI</a>
+        <a href="#">IG</a><a href="#">TK</a><a href="#">LI</a>
       </div>
     </div>
     <div>
       <div class="footer-col-title">Services</div>
       <ul class="footer-links">
-        <li><a href="#"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">Pour — Consultation</a></li>
-        <li><a href="#"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">Blend — Programming</a></li>
-        <li><a href="#"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">Reserve — Partnership</a></li>
-        <li><a href="#"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">Add-On Services</a></li>
+        <li><a href="#">Pour — Consultation</a></li>
+        <li><a href="#">Blend — Programming</a></li>
+        <li><a href="#">Reserve — Partnership</a></li>
+        <li><a href="#">Add-On Services</a></li>
       </ul>
     </div>
     <div>
       <div class="footer-col-title">Experiences</div>
       <ul class="footer-links">
-        <li><a href="#"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">The Velvet Sessions</a></li>
-        <li><a href="#"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">Velvet Brunch</a></li>
-        <li><a href="#"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">Press Play</a></li>
-        <li><a href="#"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">Sip & Smile Golf Classic</a></li>
+        <li><a href="#">The Velvet Sessions</a></li>
+        <li><a href="#">Velvet Brunch</a></li>
+        <li><a href="#">Press Play</a></li>
+        <li><a href="#">Sip & Smile Golf Classic</a></li>
       </ul>
     </div>
     <div>
       <div class="footer-col-title">Connect</div>
       <ul class="footer-links">
-        <li><a href="#"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">About Mahlik</a></li>
-        <li><a href="#"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">The Sip More Report</a></li>
-        <li><a href="#"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">Work With Us</a></li>
-        <li><a href="#"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;">sipmore.wine</a></li>
+        <li><a href="#">About Mahlik</a></li>
+        <li><a href="#">The Sip More Report</a></li>
+        <li><a href="#">Work With Us</a></li>
+        <li><a href="#">sipmore.wine</a></li>
       </ul>
     </div>
   </div>
@@ -1018,99 +851,52 @@
     document.getElementById('signupConfirm').style.opacity = '1';
     document.getElementById('newsletterEmail').value = '';
   }
-
-
-  (function() {
-    function initMenu() {
-      var btn = document.getElementById('hamburger');
-      var menu = document.getElementById('mobileMenu');
-      if (!btn || !menu) return;
-      var isOpen = false;
-      
-      btn.addEventListener('click', toggleMenu);
-      btn.addEventListener('touchend', toggleMenu);
-      menu.querySelectorAll('a').forEach(function(a) {
-        a.addEventListener('click', function() {
-          isOpen = false;
-          menu.style.display = 'none';
-          btn.classList.remove('open');
-          document.body.style.overflow = '';
-        });
-      });
-    }
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initMenu);
-    } else {
-      initMenu();
-    }
-  })();
-
 </script>
-  });
-
-
-<script>
-(function(){
-  var toggle = document.getElementById('navToggle');
-  var menu = document.getElementById('mobileNav');
-  if (!toggle || !menu) return;
-  function openMenu() {
-    menu.style.display = 'flex';
-    toggle.classList.add('is-open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeMenu() {
-    menu.style.display = 'none';
-    toggle.classList.remove('is-open');
-    document.body.style.overflow = '';
-  }
-  toggle.addEventListener('touchstart', function(e){
-    e.preventDefault();
-    toggle.classList.contains('is-open') ? closeMenu() : openMenu();
-  }, {passive: false});
-  toggle.addEventListener('click', function(e){
-    e.preventDefault();
-    toggle.classList.contains('is-open') ? closeMenu() : openMenu();
-  });
-  var links = menu.querySelectorAll('a');
-  links.forEach(function(a){
-    a.addEventListener('touchstart', function(){ closeMenu(); }, {passive: true});
-    a.addEventListener('click', function(){ closeMenu(); });
-  });
-})();
-</script>
-
 
 <!-- BOTTOM NAV -->
-<div id="bottomNav" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9990;background:#0D0D0D;border-top:1px solid rgba(201,169,122,0.15);padding:8px 0;">
-  <ul style="list-style:none;display:flex;justify-content:space-around;align-items:center;margin:0;padding:0;">
-      <li><a href="index.html"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg><span style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;">Home</span></a></li>
-      <li><a href="events.html" class="active" style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:#C9A97A;padding:4px 8px;-webkit-tap-highlight-color:transparent;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span>Events</span></a></li>
-      <li><a href="services.html"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6L12 2z"/></svg><span>Services</span></a></li>
-      <li><a href="about.html"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>About</span></a></li>
-      <li><a href="contact.html"None style="display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(200,192,178,0.45);padding:4px 8px;-webkit-tap-highlight-color:transparent;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><span>Contact</span></a></li>
-  </ul>
+<div id="sipBottomNav" style="display:none;position:fixed;bottom:0;left:0;right:0;width:100%;background:#0D0D0D;border-top:1px solid rgba(201,169,122,0.15);padding:10px 0 calc(10px + env(safe-area-inset-bottom));z-index:99999;box-sizing:border-box;">
+  <div style="display:flex;justify-content:space-around;align-items:center;width:100%;">
+    <a href="index.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 10px;-webkit-tap-highlight-color:transparent;tap-action:manipulation;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z M9 21V12h6v9"/></svg>
+      <span style="font-family:Montserrat,sans-serif;font-size:8px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Home</span>
+    </a>
+    <a href="events.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:#C9A97A;padding:2px 10px;-webkit-tap-highlight-color:transparent;tap-action:manipulation;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A97A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v2H3zM3 8h18v12a2 2 0 01-2 2H5a2 2 0 01-2-2V8z M16 2v4M8 2v4"/></svg>
+      <span style="font-family:Montserrat,sans-serif;font-size:8px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Events</span>
+    </a>
+    <a href="services.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 10px;-webkit-tap-highlight-color:transparent;tap-action:manipulation;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+      <span style="font-family:Montserrat,sans-serif;font-size:8px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Services</span>
+    </a>
+    <a href="about.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 10px;-webkit-tap-highlight-color:transparent;tap-action:manipulation;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2 M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg>
+      <span style="font-family:Montserrat,sans-serif;font-size:8px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">About</span>
+    </a>
+    <a href="contact.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 10px;-webkit-tap-highlight-color:transparent;tap-action:manipulation;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      <span style="font-family:Montserrat,sans-serif;font-size:8px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Contact</span>
+    </a>
+  </div>
 </div>
 <script>
-if (window.innerWidth <= 768) {
-  document.getElementById('bottomNav').style.display = 'block';
-  var topNav = document.getElementById('sipmoreNav');
-  if (topNav) topNav.style.display = 'none';
-  document.body.style.paddingBottom = '72px';
-}
-window.addEventListener('resize', function() {
-  var bn = document.getElementById('bottomNav');
-  var tn = document.getElementById('sipmoreNav');
-  if (window.innerWidth <= 768) {
-    bn.style.display = 'block';
-    if (tn) tn.style.display = 'none';
-    document.body.style.paddingBottom = '72px';
-  } else {
-    bn.style.display = 'none';
-    if (tn) tn.style.display = '';
-    document.body.style.paddingBottom = '';
-  }
-});
+  (function() {
+    function checkMobile() {
+      var nav = document.getElementById('sipBottomNav');
+      var topNav = document.querySelector('nav');
+      if (!nav) return;
+      if (window.innerWidth <= 768) {
+        nav.style.display = 'block';
+        if (topNav) topNav.style.display = 'none';
+        document.body.style.paddingBottom = '80px';
+      } else {
+        nav.style.display = 'none';
+        if (topNav) topNav.style.display = '';
+        document.body.style.paddingBottom = '';
+      }
+    }
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+  })();
 </script>
 </body>
 </html>
