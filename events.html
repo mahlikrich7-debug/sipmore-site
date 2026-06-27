@@ -522,7 +522,6 @@
 
   /* REVEAL */
   .reveal { opacity: 1; transform: translateY(0); transition: opacity 0.9s ease, transform 0.9s ease; }
-  .no-js .reveal { opacity: 1; transform: none; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
   .reveal-delay-1 { transition-delay: 0.15s; }
   .reveal-delay-2 { transition-delay: 0.3s; }
@@ -542,14 +541,14 @@
     .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
     .event-newsletter { padding: 80px 32px; }
   }
-
-  /* Force all content visible */
-  .reveal, .reveal.visible {
-    opacity: 1 !important;
-    transform: translateY(0) !important;
-  }
-
 </style>
+  <meta property="og:title" content="Sip More — Wine. Culture. Experience.">
+  <meta property="og:description" content="New Orleans-based wine and experiential hospitality brand. WSET Level 3 certified beverage consulting, events, and cultural experiences.">
+  <meta property="og:image" content="https://sipmore.wine/images/logo.png">
+  <meta property="og:url" content="https://sipmore.wine">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" href="images/logo.png">
 </head>
 <body>
 
@@ -562,7 +561,7 @@
   <ul class="nav-links">
     <li><a href="index.html#services">Services</a></li>
     <li><a href="events.html" class="active">Events</a></li>
-    <li><a href="about.html">About</a></li>
+    <li><a href="#">About</a></li>
     <li><a href="#">Press</a></li>
     <li><a href="index.html#contact" class="nav-cta">Work With Us</a></li>
   </ul>
@@ -622,7 +621,7 @@
         <div class="series-name">The Velvet <em>Sessions</em></div>
         <p class="series-desc">An elevated R&B night rewritten from the ground up. Champagne greetings, roses, lounge seating, curated atmosphere, and a signature after-party cocktail. Music, wine, and culture — together the way they were always meant to be.</p>
         <div class="series-actions">
-          <a href="https://universe.com" target="_blank" class="btn-primary">Get Tickets</a>
+          <a href="https://www.thevelvetsessions.club/events" target="_blank" target="_blank" class="btn-primary">Get Tickets</a>
           <a href="#" class="btn-ghost">About the Series</a>
         </div>
       </div>
@@ -641,7 +640,7 @@
         <div class="series-name">Velvet <em>Brunch</em></div>
         <p class="series-desc">Curated bites, bottomless mimosas, DJs, and live instrumental performances. Brunch, elevated. Part of the Velvet universe.</p>
         <div class="series-actions">
-          <a href="https://universe.com" target="_blank" class="btn-primary">Get Tickets</a>
+          <a href="https://www.thevelvetsessions.club/events" target="_blank" target="_blank" class="btn-primary">Get Tickets</a>
           <a href="#" class="btn-ghost">Learn More</a>
         </div>
       </div>
@@ -665,10 +664,10 @@
       <div class="video-badge">Video Coming Soon</div>
       <div class="series-content">
         <div class="series-tag">Ongoing Series</div>
-        <div class="series-name">Press <em>Play</em></div>
+        <div class="series-name">The Tasting <em>Room</em></div>
         <p class="series-desc">A weekly interactive music listening experience where the audience votes on themed playlists and album choices. Culture, conversation, and wine — no stage, just the room.</p>
         <div class="series-actions">
-          <a href="https://universe.com" target="_blank" class="btn-primary">Get Tickets</a>
+          <a href="https://www.thevelvetsessions.club/events" target="_blank" target="_blank" class="btn-primary">Get Tickets</a>
           <a href="#" class="btn-ghost">Learn More</a>
         </div>
       </div>
@@ -698,9 +697,9 @@
       </div>
       <div class="oneoff-info">
         <div class="oneoff-status"><span class="dot"></span>Upcoming · Juneteenth 2026</div>
-        <div class="oneoff-name">What's Poppin, <em>Velvet?</em></div>
-        <p class="oneoff-desc">A Juneteenth Cookout under the Velvet flag. Tiered ticketing, DJ programming, food vendors, VIP sections, and wine flowing through all of it. A celebration worthy of the day.</p>
-        <a href="https://universe.com" target="_blank" class="oneoff-link">Get Tickets</a>
+        <div class="oneoff-name"><em>Days Like These</em></div>
+        <p class="oneoff-desc">A Days Like These — Juneteenth under the Velvet flag. Tiered ticketing, DJ programming, food vendors, VIP sections, and wine flowing through all of it. A celebration worthy of the day.</p>
+        <a href="https://www.thevelvetsessions.club/events" target="_blank" target="_blank" class="oneoff-link">Get Tickets</a>
       </div>
     </div>
 
@@ -720,7 +719,7 @@
         <div class="oneoff-status"><span class="dot"></span>Annual · Date TBD 2026</div>
         <div class="oneoff-name">Sip &amp; Smile<br><em>Golf Classic</em></div>
         <p class="oneoff-desc">An annual fundraising tournament open to all skill levels, raising funds for orthodontic treatments and wine education scholarships. Golf, wine, and community — in the best possible combination.</p>
-        <a href="https://universe.com" target="_blank" class="oneoff-link">Get Tickets</a>
+        <a href="https://www.thevelvetsessions.club/events" target="_blank" target="_blank" class="oneoff-link">Get Tickets</a>
       </div>
     </div>
 
@@ -734,13 +733,13 @@
   <div class="gallery-track" id="galleryTrack">
     <div class="gallery-frame" style="background:linear-gradient(135deg,#1a0508,#0d0d0d);"><div class="gallery-placeholder-text">Velvet Sessions<br>— photo —</div></div>
     <div class="gallery-frame" style="background:linear-gradient(135deg,#0d0a05,#141414);"><div class="gallery-placeholder-text">Velvet Brunch<br>— photo —</div></div>
-    <div class="gallery-frame" style="background:linear-gradient(135deg,#080c08,#0d0d0d);"><div class="gallery-placeholder-text">Press Play<br>— photo —</div></div>
+    <div class="gallery-frame" style="background:linear-gradient(135deg,#080c08,#0d0d0d);"><div class="gallery-placeholder-text">The Tasting Room<br>— photo —</div></div>
     <div class="gallery-frame" style="background:linear-gradient(135deg,#0a0810,#141414);"><div class="gallery-placeholder-text">Golf Classic<br>— photo —</div></div>
     <div class="gallery-frame" style="background:linear-gradient(135deg,#150a05,#0d0d0d);"><div class="gallery-placeholder-text">Juneteenth<br>— photo —</div></div>
     <!-- Duplicate for seamless loop -->
     <div class="gallery-frame" style="background:linear-gradient(135deg,#1a0508,#0d0d0d);"><div class="gallery-placeholder-text">Velvet Sessions<br>— photo —</div></div>
     <div class="gallery-frame" style="background:linear-gradient(135deg,#0d0a05,#141414);"><div class="gallery-placeholder-text">Velvet Brunch<br>— photo —</div></div>
-    <div class="gallery-frame" style="background:linear-gradient(135deg,#080c08,#0d0d0d);"><div class="gallery-placeholder-text">Press Play<br>— photo —</div></div>
+    <div class="gallery-frame" style="background:linear-gradient(135deg,#080c08,#0d0d0d);"><div class="gallery-placeholder-text">The Tasting Room<br>— photo —</div></div>
     <div class="gallery-frame" style="background:linear-gradient(135deg,#0a0810,#141414);"><div class="gallery-placeholder-text">Golf Classic<br>— photo —</div></div>
     <div class="gallery-frame" style="background:linear-gradient(135deg,#150a05,#0d0d0d);"><div class="gallery-placeholder-text">Juneteenth<br>— photo —</div></div>
   </div>
@@ -770,7 +769,7 @@
       <div class="footer-brand-name">Sip <span>More</span></div>
       <p class="footer-tagline">Wine and experiential hospitality, rooted in New Orleans culture.</p>
       <div class="footer-social">
-        <a href="#">IG</a><a href="#">TK</a><a href="#">LI</a>
+        <a href="https://www.instagram.com/mahlikrich/" target="_blank">IG</a><a href="https://www.tiktok.com/@mahlikrich?_r=1&_t=ZT-97Z1AGSYSnF" target="_blank">TK</a><a href="https://www.linkedin.com/in/mahlik-rich-5469ab251" target="_blank">LI</a>
       </div>
     </div>
     <div>
@@ -787,7 +786,7 @@
       <ul class="footer-links">
         <li><a href="#">The Velvet Sessions</a></li>
         <li><a href="#">Velvet Brunch</a></li>
-        <li><a href="#">Press Play</a></li>
+        <li><a href="#">The Tasting Room</a></li>
         <li><a href="#">Sip & Smile Golf Classic</a></li>
       </ul>
     </div>
@@ -821,7 +820,7 @@
     ring.style.left = ringX + 'px'; ring.style.top = ringY + 'px';
     requestAnimationFrame(animateRing);
   }
-  if (cursor && ring) animateRing();
+  animateRing();
 
   // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
@@ -829,14 +828,6 @@
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.1 });
   reveals.forEach(el => observer.observe(el));
-
-  // Reveal fallback — show all if observer fails
-  setTimeout(function() {
-    document.querySelectorAll('.reveal:not(.visible)').forEach(function(el) {
-      el.classList.add('visible');
-    });
-  }, 800);
-
 
   // Filter
   function filterEvents(category, btn) {
@@ -871,94 +862,48 @@
 
 <!-- BOTTOM NAV -->
 <div id="sipBottomNav" style="display:none;position:fixed;bottom:0;left:0;right:0;width:100%;background:#0D0D0D;border-top:1px solid rgba(201,169,122,0.15);padding:10px 0 calc(10px + env(safe-area-inset-bottom));z-index:99999;box-sizing:border-box;">
-  <div style="display:flex;justify-content:space-around;align-items:center;width:100%;overflow:hidden;overflow:hidden;">
-    <a href="index.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;tap-action:manipulation;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z M9 21V12h6v9"/></svg>
-      <span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Home</span>
-    </a>
-    <a href="events.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:#C9A97A;padding:2px 4px;-webkit-tap-highlight-color:transparent;tap-action:manipulation;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9A97A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v2H3zM3 8h18v12a2 2 0 01-2 2H5a2 2 0 01-2-2V8z M16 2v4M8 2v4"/></svg>
-      <span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Events</span>
-    </a>
-    <a href="services.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;tap-action:manipulation;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
-      <span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Services</span>
-    </a>
-    <a href="about.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;tap-action:manipulation;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2 M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg>
-      <span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">About</span>
-    </a>
-    <a href="contact.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;tap-action:manipulation;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-      <span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Contact</span>
-    </a>
-  </div>
-</div>
-<script>
-  (function() {
-    function checkMobile() {
-      var nav = document.getElementById('sipBottomNav');
-      var topNav = document.querySelector('nav');
-      if (!nav) return;
-      if (window.innerWidth <= 768) {
-        nav.style.display = 'block';
-        if (topNav) topNav.style.display = 'none';
-        document.body.style.paddingBottom = '80px';
-      } else {
-        nav.style.display = 'none';
-        if (topNav) topNav.style.display = '';
-        document.body.style.paddingBottom = '';
-      }
-    }
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-  })();
-</script>
-
-<!-- BOTTOM NAV -->
-<div id="sipBottomNav" style="display:none;position:fixed;bottom:0;left:0;right:0;width:100%;background:#0D0D0D;border-top:1px solid rgba(201,169,122,0.15);padding:10px 0 calc(10px + env(safe-area-inset-bottom));z-index:99999;box-sizing:border-box;">
   <div style="display:flex;justify-content:space-around;align-items:center;width:100%;overflow:hidden;">
-    <a href="index.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;tap-action:manipulation;">
+    <a href="index.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z M9 21V12h6v9"/></svg>
       <span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Home</span>
     </a>
-    <a href="events.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:#C9A97A;padding:2px 4px;-webkit-tap-highlight-color:transparent;tap-action:manipulation;">
+    <a href="events.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:#C9A97A;padding:2px 4px;-webkit-tap-highlight-color:transparent;">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9A97A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v2H3zM3 8h18v12a2 2 0 01-2 2H5a2 2 0 01-2-2V8z M16 2v4M8 2v4"/></svg>
       <span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Events</span>
     </a>
-    <a href="services.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;tap-action:manipulation;">
+    <a href="services.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
       <span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Services</span>
     </a>
-    <a href="about.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;tap-action:manipulation;">
+    <a href="about.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2 M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg>
       <span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">About</span>
     </a>
-    <a href="contact.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;tap-action:manipulation;">
+    <a href="contact.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
       <span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Contact</span>
     </a>
   </div>
 </div>
 <script>
-  (function() {
-    function checkMobile() {
-      var nav = document.getElementById('sipBottomNav');
-      var topNav = document.querySelector('nav');
-      if (!nav) return;
-      if (window.innerWidth <= 768) {
-        nav.style.display = 'block';
-        if (topNav) topNav.style.display = 'none';
-        document.body.style.paddingBottom = '80px';
-      } else {
-        nav.style.display = 'none';
-        if (topNav) topNav.style.display = '';
-        document.body.style.paddingBottom = '';
-      }
+(function() {
+  function checkMobile() {
+    var nav = document.getElementById('sipBottomNav');
+    var topNav = document.querySelector('nav');
+    if (!nav) return;
+    if (window.innerWidth <= 768) {
+      nav.style.display = 'block';
+      if (topNav) topNav.style.display = 'none';
+      document.body.style.paddingBottom = '80px';
+    } else {
+      nav.style.display = 'none';
+      if (topNav) topNav.style.display = '';
+      document.body.style.paddingBottom = '';
     }
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-  })();
+  }
+  checkMobile();
+  window.addEventListener('resize', checkMobile);
+})();
 </script>
 </body>
 </html>
