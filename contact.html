@@ -523,7 +523,7 @@
     <li><a href="services.html">Services</a></li>
     <li><a href="events.html">Events</a></li>
     <li><a href="about.html">About</a></li>
-    <li><a href="#">Press</a></li>
+    <li><a href="contact.html">Press</a></li>
     <li><a href="contact.html" class="active nav-cta">Work With Us</a></li>
   </ul>
 </nav>
@@ -567,9 +567,9 @@
       </div>
 
       <div class="social-row">
-        <a href="#" class="social-btn">Instagram</a>
-        <a href="#" class="social-btn">TikTok</a>
-        <a href="#" class="social-btn">LinkedIn</a>
+        <a href="https://www.instagram.com/mahlikrich/" target="_blank" class="social-btn">Instagram</a>
+        <a href="https://www.tiktok.com/@mahlikrich?_r=1<a href="#" class="social-btn">TikTok</a>_t=ZT-97Z1AGSYSnF" target="_blank" class="social-btn">TikTok</a>
+        <a href="https://www.linkedin.com/in/mahlik-rich-5469ab251" target="_blank" class="social-btn">LinkedIn</a>
       </div>
     </div>
 
@@ -652,7 +652,7 @@
         <!-- Submit -->
         <div class="form-submit-row">
           <p class="submit-note">Your message goes directly to Mahlik Rich. Expect a response within 48 hours.</p>
-          <button type="submit" class="btn-submit">Send Inquiry</button>
+          <button type="submit" class="btn-submit" onclick="submitForm(event)">Send Inquiry</button>
         </div>
 
       </form>
@@ -778,6 +778,20 @@
       highlightSection('.heard-field');
       return;
     }
+    // Build email
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value || 'Not provided';
+    const subject = encodeURIComponent('Sip More Inquiry — ' + inquiryType + ' from ' + firstName + ' ' + lastName);
+    const body = encodeURIComponent(
+      'Name: ' + firstName + ' ' + lastName + '\n' +
+      'Email: ' + email + '\n' +
+      'Phone: ' + phone + '\n' +
+      'Inquiry Type: ' + inquiryType + '\n' +
+      'How they heard about Sip More: ' + heard
+    );
+    window.open('mailto:mahlik@sipmore.wine?subject=' + subject + '&body=' + body);
     // Show success
     document.getElementById('formWrapper').style.display = 'none';
     const success = document.getElementById('successState');
