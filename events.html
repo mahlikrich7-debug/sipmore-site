@@ -532,6 +532,14 @@
   @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
   @keyframes galleryScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
+    @media (max-width: 768px) {
+    .series-card.wide { flex-direction: column; min-height: auto; }
+    .series-card { min-height: auto; }
+    .series-media { position: relative; width: 100%; }
+    .series-media-overlay { display: none; }
+    .series-content { position: relative; z-index: 2; background: #1C1C1C; }
+    .oneoff-grid { grid-template-columns: 1fr; }
+  }
   @media (max-width: 1100px) {
     nav { padding: 24px 32px; }
     .page-hero, .filter-bar, .series-section, .oneoff-section { padding-left: 32px; padding-right: 32px; }
