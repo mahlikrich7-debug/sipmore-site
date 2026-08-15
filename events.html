@@ -151,7 +151,7 @@
   /* Series cards — large horizontal */
   .series-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 3px;
     margin-bottom: 3px;
   }
@@ -161,6 +161,7 @@
     overflow: hidden;
     background: var(--deep);
     cursor: pointer;
+    min-height: 420px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -175,7 +176,11 @@
     width: 100%;
     overflow: hidden;
   }
-  .series-media-bg { display: none; }
+  .series-media-bg {
+    position: absolute; inset: 0;
+    transition: transform 0.6s ease;
+  }
+  .series-card:hover .series-media-bg { transform: scale(1.04); }
 
   .series-media-overlay { display: none; }
 
@@ -306,15 +311,14 @@
 
   /* Single wide card (Velvet Sessions) */
   .series-card.wide {
-    
     flex-direction: column;
     align-items: stretch;
   }
   .series-card.wide .series-content {
-    max-width: 100%;
+    max-width: 600px;
   }
   .series-card.wide .series-name {
-    font-size: clamp(36px, 4vw, 56px);
+    font-size: clamp(48px, 5vw, 72px);
   }
 
   /* =====================
@@ -532,6 +536,7 @@
     .series-media-overlay { display: none; }
     .series-content { position: relative; z-index: 2; background: #1C1C1C; }
     .oneoff-grid { grid-template-columns: 1fr; }
+    .series-grid { grid-template-columns: 1fr !important; }
   }
   @media (max-width: 1100px) {
     nav { padding: 24px 32px; }
@@ -595,9 +600,7 @@
     <!-- VELVET SESSIONS — wide featured -->
     <div class="series-card wide reveal" data-category="series">
       <div class="series-media">
-        <div style="position:relative;width:100%;padding-bottom:177.78%;overflow:hidden;background:#0D0D0D;">
-        <iframe src="https://www.youtube.com/embed/TJckhoCJXc8?autoplay=0&rel=0&modestbranding=1" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
+        <div style="position:relative;width:100%;padding-bottom:177.78%;overflow:hidden;background:#0D0D0D;"><iframe src="https://www.youtube.com/embed/TJckhoCJXc8?rel=0&modestbranding=1" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
         <!-- Art deco SVG -->
         <svg class="series-deco" width="160" height="200" viewBox="0 0 160 200" fill="none">
           <rect x="1" y="1" width="158" height="198" stroke="rgba(201,169,122,0.6)" stroke-width="1"/>
@@ -614,7 +617,7 @@
         <!-- Large background type -->
         <div style="position:absolute;bottom:-20px;right:-10px;font-family:'Cormorant Garamond',serif;font-size:220px;font-weight:700;color:rgba(139,38,53,0.06);line-height:1;pointer-events:none;user-select:none;z-index:1;">V</div>
       </div>
-
+      
       <div class="series-content">
         <div class="series-tag">
           Ongoing Series
@@ -632,12 +635,10 @@
     <!-- VELVET BRUNCH -->
     <div class="series-card reveal reveal-delay-1" data-category="series">
       <div class="series-media">
-        <div style="position:relative;width:100%;padding-bottom:177.78%;overflow:hidden;background:#0D0D0D;">
-        <iframe src="https://www.youtube.com/embed/tuUTakwZsno?autoplay=0&rel=0&modestbranding=1" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
+        <div style="position:relative;width:100%;padding-bottom:177.78%;overflow:hidden;background:#0D0D0D;"><iframe src="https://www.youtube.com/embed/tuUTakwZsno?rel=0&modestbranding=1" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
         <div style="position:absolute;bottom:-10px;right:-5px;font-family:'Cormorant Garamond',serif;font-size:160px;font-weight:700;color:rgba(201,169,122,0.04);line-height:1;pointer-events:none;z-index:1;">B</div>
       </div>
-
+      
       <div class="series-content">
         <div class="series-tag">Ongoing Series</div>
         <div class="series-name">Velvet <em>Brunch</em></div>
@@ -652,9 +653,7 @@
     <!-- PRESS PLAY -->
     <div class="series-card reveal reveal-delay-2" data-category="series">
       <div class="series-media">
-        <div style="position:relative;width:100%;padding-bottom:125%;overflow:hidden;background:#0D0D0D;">
-          <img src="images/tasting-room.png" alt="The Tasting Room" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
-        </div>
+        <div style="position:relative;width:100%;padding-bottom:125%;overflow:hidden;background:#0D0D0D;"><img src="images/tasting-room.png" alt="The Tasting Room" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;"></div>
         <div style="position:absolute;bottom:-10px;right:-5px;font-family:'Cormorant Garamond',serif;font-size:160px;font-weight:700;color:rgba(201,169,122,0.04);line-height:1;pointer-events:none;z-index:1;">P</div>
         <!-- Vinyl record deco -->
         <svg style="position:absolute;top:30px;right:30px;opacity:0.12;z-index:2;" width="100" height="100" viewBox="0 0 100 100">
@@ -665,13 +664,35 @@
           <circle cx="50" cy="50" r="6" fill="rgba(201,169,122,0.4)"/>
         </svg>
       </div>
-
+      
       <div class="series-content">
         <div class="series-tag">Ongoing Series</div>
         <div class="series-name">The Tasting <em>Room</em></div>
         <p class="series-desc">A weekly interactive music listening experience where the audience votes on themed playlists and album choices. Culture, conversation, and wine — no stage, just the room.</p>
         <div class="series-actions">
           <a href="https://www.thevelvetsessions.club/events" target="_blank" target="_blank" class="btn-primary">Get Tickets</a>
+          <a href="#" class="btn-ghost">Learn More</a>
+        </div>
+      </div>
+    </div>
+
+  
+    <!-- STEP LIGHT -->
+    <div class="series-card reveal reveal-delay-2" data-category="series">
+      <div class="series-media">
+        <div style="position:relative;width:100%;padding-bottom:125%;overflow:hidden;background:#0D0D0D;">
+          <img src="images/step-light.png" alt="Step Light" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
+        </div>
+      </div>
+      <div class="series-content">
+        <div class="series-tag">
+          Ongoing Series
+          <span class="tag-pill">New</span>
+        </div>
+        <div class="series-name">Step <em>Light</em></div>
+        <p class="series-desc">A beginner-friendly dance social centered around community and movement. A choreographer leads you through all your favorite line dances — no pressure, just good energy, good wine, and the confidence to step in next time your song comes on.</p>
+        <div class="series-actions">
+          <a href="#" target="_blank" class="btn-primary">Get Tickets</a>
           <a href="#" class="btn-ghost">Learn More</a>
         </div>
       </div>
@@ -690,24 +711,20 @@
 
     <!-- JUNETEENTH -->
     <div class="oneoff-card reveal" data-category="oneoff upcoming">
-      <div class="oneoff-media" style="position:relative;width:100%;padding-bottom:177.78%;overflow:hidden;">
-        <iframe src="https://www.youtube.com/embed/8NioqwWwlHs?rel=0&modestbranding=1" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
+      <div class="oneoff-media"><div style="position:relative;width:100%;padding-bottom:177.78%;overflow:hidden;background:#0D0D0D;"><iframe src="https://www.youtube.com/embed/8NioqwWwlHs?rel=0&modestbranding=1" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></div>
         </div>
       </div>
       <div class="oneoff-info">
         <div class="oneoff-status"><span class="dot"></span>Upcoming · Juneteenth 2026</div>
         <div class="oneoff-name"><em>Days Like These</em></div>
-        <p class="oneoff-desc">A Days Like These — Juneteenth under the Velvet flag. Tiered ticketing, DJ programming, food vendors, VIP sections, and wine flowing through all of it. A celebration worthy of the day.</p>
+        <p class="oneoff-desc">An event series curated to remind us of the days we wished we could go back to — the days we didn't want to end. Good music, good wine, good people. Here's to more memories.</p>
         <a href="https://www.thevelvetsessions.club/events" target="_blank" target="_blank" class="oneoff-link">Get Tickets</a>
       </div>
     </div>
 
     <!-- SIP & SMILE GOLF CLASSIC -->
     <div class="oneoff-card reveal reveal-delay-1" data-category="oneoff upcoming">
-      <div class="oneoff-media" style="position:relative;width:100%;padding-bottom:177.78%;overflow:hidden;">
-        <iframe src="https://www.youtube.com/embed/2xZHVY6MYAs?rel=0&modestbranding=1" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
+      <div class="oneoff-media"><div style="position:relative;width:100%;padding-bottom:177.78%;overflow:hidden;background:#0D0D0D;"><iframe src="https://www.youtube.com/embed/2xZHVY6MYAs?rel=0&modestbranding=1" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></div>
         </div>
       </div>
       <div class="oneoff-info">
@@ -780,9 +797,9 @@
     <div>
       <div class="footer-col-title">Experiences</div>
       <ul class="footer-links">
-        <li><a href="#">The Velvet Sessions</a></li>
-        <li><a href="#">Velvet Brunch</a></li>
-        <li><a href="#">The Tasting Room</a></li>
+        <li><a href="events.html">The Velvet Sessions</a></li>
+        <li><a href="events.html">Velvet Brunch</a></li>
+        <li><a href="events.html">The Tasting Room</a></li>
         <li><a href="#">Sip & Smile Golf Classic</a></li>
       </ul>
     </div>
@@ -851,39 +868,18 @@
   // Newsletter
   function handleSignup(e) {
     e.preventDefault();
-    var email = document.getElementById('newsletterEmail').value;
-    if (!email) return;
-    var subject = encodeURIComponent('New Sip More Report Subscriber');
-    var body = encodeURIComponent('New subscriber: ' + email);
-    window.open('mailto:mahlik@sipmore.wine?subject=' + subject + '&body=' + body);
     document.getElementById('signupConfirm').style.opacity = '1';
     document.getElementById('newsletterEmail').value = '';
   }
 </script>
-
 <!-- BOTTOM NAV -->
 <div id="sipBottomNav" style="display:none;position:fixed;bottom:0;left:0;right:0;width:100%;background:#0D0D0D;border-top:1px solid rgba(201,169,122,0.15);padding:10px 0 calc(10px + env(safe-area-inset-bottom));z-index:99999;box-sizing:border-box;">
   <div style="display:flex;justify-content:space-around;align-items:center;width:100%;overflow:hidden;">
-    <a href="index.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z M9 21V12h6v9"/></svg>
-      <span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Home</span>
-    </a>
-    <a href="events.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:#C9A97A;padding:2px 4px;-webkit-tap-highlight-color:transparent;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9A97A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v2H3zM3 8h18v12a2 2 0 01-2 2H5a2 2 0 01-2-2V8z M16 2v4M8 2v4"/></svg>
-      <span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Events</span>
-    </a>
-    <a href="services.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
-      <span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Services</span>
-    </a>
-    <a href="about.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2 M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg>
-      <span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">About</span>
-    </a>
-    <a href="contact.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-      <span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Contact</span>
-    </a>
+    <a href="index.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z M9 21V12h6v9"/></svg><span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Home</span></a>
+    <a href="events.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:#C9A97A;padding:2px 4px;-webkit-tap-highlight-color:transparent;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9A97A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v2H3zM3 8h18v12a2 2 0 01-2 2H5a2 2 0 01-2-2V8z M16 2v4M8 2v4"/></svg><span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Events</span></a>
+    <a href="services.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg><span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Services</span></a>
+    <a href="about.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2 M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg><span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">About</span></a>
+    <a href="contact.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Contact</span></a>
   </div>
 </div>
 <script>

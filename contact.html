@@ -567,9 +567,9 @@
       </div>
 
       <div class="social-row">
-        <a href="https://www.instagram.com/mahlikrich/" target="_blank" class="social-btn">Instagram</a>
-        <a href="https://www.tiktok.com/@mahlikrich?_r=1&_t=ZT-97Z1AGSYSnF" target="_blank" class="social-btn">TikTok</a>
-        <a href="https://www.linkedin.com/in/mahlik-rich-5469ab251" target="_blank" class="social-btn">LinkedIn</a>
+        <a href="#" class="social-btn">Instagram</a>
+        <a href="#" class="social-btn">TikTok</a>
+        <a href="#" class="social-btn">LinkedIn</a>
       </div>
     </div>
 
@@ -652,7 +652,7 @@
         <!-- Submit -->
         <div class="form-submit-row">
           <p class="submit-note">Your message goes directly to Mahlik Rich. Expect a response within 48 hours.</p>
-          <button type="submit" class="btn-submit" onclick="submitForm(event)">Send Inquiry</button>
+          <button type="submit" class="btn-submit">Send Inquiry</button>
         </div>
 
       </form>
@@ -686,7 +686,7 @@
     <div class="strip-icon">◉</div>
     <div class="strip-label">Experiences</div>
     <div class="strip-title">Upcoming Events</div>
-    <p class="strip-desc">Velvet Sessions, the Days Like These — Juneteenth, Golf Classic and more — grab your tickets on Universe.</p>
+    <p class="strip-desc">Velvet Sessions, the Juneteenth Cookout, Golf Classic and more — grab your tickets on Universe.</p>
   </a>
   <a href="about.html" class="strip-item reveal reveal-delay-2">
     <div class="strip-icon">◈</div>
@@ -720,7 +720,7 @@
       <ul class="footer-links">
         <li><a href="events.html">The Velvet Sessions</a></li>
         <li><a href="events.html">Velvet Brunch</a></li>
-        <li><a href="events.html">The Tasting Room</a></li>
+        <li><a href="events.html">Press Play</a></li>
         <li><a href="events.html">Sip & Smile Golf Classic</a></li>
       </ul>
     </div>
@@ -778,20 +778,6 @@
       highlightSection('.heard-field');
       return;
     }
-    // Build email
-    const firstName = document.getElementById('firstName').value;
-    const lastName = document.getElementById('lastName').value;
-    const email = document.getElementById('email').value;
-    const phone = document.getElementById('phone').value || 'Not provided';
-    const subject = encodeURIComponent('Sip More Inquiry — ' + inquiryType + ' from ' + firstName + ' ' + lastName);
-    const body = encodeURIComponent(
-      'Name: ' + firstName + ' ' + lastName + '\n' +
-      'Email: ' + email + '\n' +
-      'Phone: ' + phone + '\n' +
-      'Inquiry Type: ' + inquiryType + '\n' +
-      'How they heard about Sip More: ' + heard
-    );
-    window.open('mailto:mahlik@sipmore.wine?subject=' + subject + '&body=' + body);
     // Show success
     document.getElementById('formWrapper').style.display = 'none';
     const success = document.getElementById('successState');
@@ -813,30 +799,14 @@
   }, { threshold: 0.1 });
   reveals.forEach(el => observer.observe(el));
 </script>
-
 <!-- BOTTOM NAV -->
 <div id="sipBottomNav" style="display:none;position:fixed;bottom:0;left:0;right:0;width:100%;background:#0D0D0D;border-top:1px solid rgba(201,169,122,0.15);padding:10px 0 calc(10px + env(safe-area-inset-bottom));z-index:99999;box-sizing:border-box;">
   <div style="display:flex;justify-content:space-around;align-items:center;width:100%;overflow:hidden;">
-    <a href="index.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z M9 21V12h6v9"/></svg>
-      <span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Home</span>
-    </a>
-    <a href="events.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v2H3zM3 8h18v12a2 2 0 01-2 2H5a2 2 0 01-2-2V8z M16 2v4M8 2v4"/></svg>
-      <span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Events</span>
-    </a>
-    <a href="services.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
-      <span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Services</span>
-    </a>
-    <a href="about.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2 M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg>
-      <span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">About</span>
-    </a>
-    <a href="contact.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:#C9A97A;padding:2px 4px;-webkit-tap-highlight-color:transparent;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9A97A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-      <span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Contact</span>
-    </a>
+    <a href="index.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z M9 21V12h6v9"/></svg><span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Home</span></a>
+    <a href="events.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v2H3zM3 8h18v12a2 2 0 01-2 2H5a2 2 0 01-2-2V8z M16 2v4M8 2v4"/></svg><span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Events</span></a>
+    <a href="services.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg><span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Services</span></a>
+    <a href="about.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:rgba(200,192,178,0.4);padding:2px 4px;-webkit-tap-highlight-color:transparent;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(200,192,178,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2 M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg><span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">About</span></a>
+    <a href="contact.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:#C9A97A;padding:2px 4px;-webkit-tap-highlight-color:transparent;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9A97A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><span style="font-family:Montserrat,sans-serif;font-size:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">Contact</span></a>
   </div>
 </div>
 <script>
